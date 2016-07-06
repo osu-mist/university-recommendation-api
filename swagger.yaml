@@ -1,7 +1,6 @@
 swagger: '2.0'
 info:
-  title: Web API Skeleton
-  description: Skeleton for Dropwizard Web APIs
+  title: University Recommendation API
   version: '0.0'
   license:
     name: GNU Affero General Public License Version 3
@@ -16,7 +15,7 @@ basePath: /api/v0
 consumes:
   - text/plain
 produces:
-  - text/plain
+  - application/json
 paths:
   /:
     get:
