@@ -1,6 +1,6 @@
-# Web API Skeleton
+# University Recommendation API
 
-Skeleton for Dropwizard Web APIs.
+This is a learning project.The purpose of projects is to provide experience with languages (Groovy, JSON, & HTML/CSS/JS), frameworks (Dropwizard & Grails), and tools (Git, Jira, & IntelliJ IDEA) we expect to use to develop Web APIs and applications.
 
 ### Generate Keys
 

@@ -57,21 +57,153 @@ paths:
           description: Not found
           schema:
             $ref: '#/definitions/Error'
+
 definitions:
-  Info:
+  Archive:
+    type: object
     properties:
+      id:
+        type: integer
+        format: int32
+        description: Unique identifier for the archive
+      year:
+        type: integer
+        format: int32
+      stu_src:
+        type: string
+        description: Province that the students come from
+      stu_type:
+        type: string
+        description: Type of the student-[arts, sciences]
+      batch:
+        type: integer
+        format: int32
+        description: An integer indicates the batch-[1, 2, 3]
+
+  University:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: Unique 4-digit identifier for the university
       name:
         type: string
-      time:
+        description: Name of the university
+      province:
+        type: string
+        description: Province where the university locates
+      is_985:
+        type: boolean
+        description: is the university in the 985 program
+      is_211:
+        type: boolean
+        description: is the university in the 211 program
+
+  Ranking:
+    type: object
+    properties:
+      id:
         type: integer
-      commit:
+        format: int32
+        description: Unique identifier for the ranking
+      a_id:
+        type: integer
+        format: int32
+        description: Identifier that related to the archive
+      score:
+        type: integer
+        format: int32
+        description: Score of the examination
+      stu_count:
+        type: integer
+        format: int32
+        description: Number of students received the score
+      ranking:
+        type: integer
+        format: int32
+        description: Ranking of the score in the province
+
+  BatchScore:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: Unique identifier for the batchScore
+      a_id:
+        type: integer
+        format: int32
+        description: Identifier that related to the archive
+      min_score:
+        type: integer
+        format: int32
+        description: Minimum score of the batch
+
+  EnrollmentUniversity:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: Unique identifier for the EnrollmentUniversity
+      u_id:
+        type: integer
+        format: int32
+        description: Identifier that related to the university
+      a_id:
+        type: integer
+        format: int32
+        description: Identifier that related to the archive
+      score_avg:
+        type: integer
+        format: int32
+        description: Average score for the university
+      stu_count:
+        type: integer
+        format: int32
+        description: Number of students enrolled in the university
+
+  EnrollmentMajor:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: Unique identifier for the EnrollmentMajor
+      u_id:
+        type: integer
+        format: int32
+        description: Identifier that related to the university
+      a_id:
+        type: integer
+        format: int32
+        description: Identifier that related to the archive
+      major:
         type: string
-      documentation:
+      score_avg:
+        type: integer
+        format: int32
+        description: Average score for the major
+
+  Translation:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: Unique identifier for the Translation
+      english:
         type: string
+      chinese:
+        type: string
+
   Error:
+    type: object
     properties:
       status:
         type: integer
+        format: int32
       developerMessage:
         type: string
       userMesage:
