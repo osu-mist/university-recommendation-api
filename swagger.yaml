@@ -17,46 +17,7 @@ consumes:
 produces:
   - application/json
 paths:
-  /:
-    get:
-      summary: Get information
-      description: Build and runtime information about the application.
-      responses:
-        200:
-          description: Object containing information
-          schema:
-            $ref: '#/definitions/Info'
-  /sample:
-    get:
-      summary: Get message
-      description: This is a sample resource that returns a short message.
-      responses:
-        200:
-          description: A short message
-          schema:
-            type: string
-        404:
-          description: Not found
-          schema:
-            $ref: '#/definitions/Error'
-    post:
-      summary: Post message
-      description: This is a sample resource that returns the message it receives.
-      parameters:
-        - name: message
-          in: body
-          schema:
-            type: string
-          required: true
-      responses:
-        200:
-          description: The message received
-          schema:
-            type: string
-        404:
-          description: Not found
-          schema:
-            $ref: '#/definitions/Error'
+
 
 definitions:
   Archive:
@@ -119,7 +80,7 @@ definitions:
         type: integer
         format: int32
         description: Number of students received the score
-      ranking:
+      rank:
         type: integer
         format: int32
         description: Ranking of the score in the province
