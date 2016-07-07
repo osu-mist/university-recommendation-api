@@ -17,9 +17,287 @@ consumes:
 produces:
   - application/json
 paths:
+  /recommendations/{stu_type}/{stu_src}/batch-{batch}/ranking:
+    get:
+      tags:
+        - recommendations
+      description: 'Get a list of recommendations'
+      operationId: getRecommendationsByRanking
+      produces:
+        - application/json
+      parameters:
+        - name: stu_type
+          in: path
+          description: "Type of student, arts/sciences"
+          required: true
+          type: string
+        - name: stu_src
+          in: path
+          description: "Province that the student took the College Entrance Examination"
+          required: true
+          type: string
+        - name: batch
+          in: path
+          description: "Batch that the student belongs to"
+          required: true
+          type: string
+        - in: query
+          name: page[size]
+          description: "Number of results to return. Used in pagination. Default value is 10."
+          required: false
+          type: string
+        - in: query
+          name: page[number]
+          description: "Page number of results. Used to paginate through results."
+          required: false
+          type: string
+        - in: query
+          name: rank_base
+          description: "Ranking of the score"
+          required: true
+          type: integer
+          format: int32
+        - in: query
+          name: rank_range
+          description: "Positive integer indicates the range. real range will be (rank_base - rank_range, rank_base + rank_range)"
+          required: true
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: "Successful response"
+          schema:
+            $ref: "#/definitions/recommendation"
+        "404":
+          description: "Not found"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/descriptions/Error"
 
+  /recommendations/{stu_type}/{stu_src}/batch-{batch}/ranking/majors:
+    get:
+      tags:
+        - recommendations
+      description: 'Get a list of recommendations'
+      operationId: getRecommendationsByRankingAndMajor
+      produces:
+        - application/json
+      parameters:
+        - name: stu_type
+          in: path
+          description: "Type of student, arts/sciences"
+          required: true
+          type: string
+        - name: stu_src
+          in: path
+          description: "Province that the student took the College Entrance Examination"
+          required: true
+          type: string
+        - name: batch
+          in: path
+          description: "Batch that the student belongs to"
+          required: true
+          type: string
+        - in: query
+          name: page[size]
+          description: "Number of results to return. Used in pagination. Default value is 10."
+          required: false
+          type: string
+        - in: query
+          name: page[number]
+          description: "Page number of results. Used to paginate through results."
+          required: false
+          type: string
+        - in: query
+          name: rank_base
+          description: "Ranking of the score"
+          required: true
+          type: integer
+          format: int32
+        - in: query
+          name: rank_range
+          description: "Positive integer indicates the range. real range will be (rank_base - rank_range, rank_base + rank_range)"
+          required: true
+          type: integer
+          format: int32
+        - in: query
+          name: majors
+          description: 'A list of key words used to filter the majors'
+          required: true
+          type: array
+          item: string
+      responses:
+        "200":
+          description: "Successful response"
+          schema:
+            $ref: "#/definitions/recommendation"
+        "404":
+          description: "Not found"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/descriptions/Error"
+
+  /recommendations/{stu_type}/{stu_src}/batch-{batch}/score:
+    get:
+      tags:
+        - recommendations
+      description: 'Get a list of recommendations'
+      operationId: getRecommendationsByScore
+      produces:
+        - application/json
+      parameters:
+        - name: stu_type
+          in: path
+          description: "Type of student, arts/sciences"
+          required: true
+          type: string
+        - name: stu_src
+          in: path
+          description: "Province that the student took the College Entrance Examination"
+          required: true
+          type: string
+        - name: batch
+          in: path
+          description: "Batch that the student belongs to"
+          required: true
+          type: string
+        - in: query
+          name: page[size]
+          description: "Number of results to return. Used in pagination. Default value is 10."
+          required: false
+          type: string
+        - in: query
+          name: page[number]
+          description: "Page number of results. Used to paginate through results."
+          required: false
+          type: string
+        - in: query
+          name: score_diff
+          description: "The differences between student's score and the batch score"
+          required: true
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: "Successful response"
+          schema:
+            $ref: "#/definitions/recommendation"
+        "404":
+          description: "Not found"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/descriptions/Error"
+
+  /recommendations/{stu_type}/{stu_src}/batch-{batch}/score-diff/major:
+    get:
+      tags:
+        - recommendations
+      description: 'Get a list of recommendations'
+      operationId: getRecommendationsByScore
+      produces:
+        - application/json
+      parameters:
+        - name: stu_type
+          in: path
+          description: "Type of student, arts/sciences"
+          required: true
+          type: string
+        - name: stu_src
+          in: path
+          description: "Province that the student took the College Entrance Examination"
+          required: true
+          type: string
+        - name: batch
+          in: path
+          description: "Batch that the student belongs to"
+          required: true
+          type: string
+        - in: query
+          name: page[size]
+          description: "Number of results to return. Used in pagination. Default value is 10."
+          required: false
+          type: string
+        - in: query
+          name: page[number]
+          description: "Page number of results. Used to paginate through results."
+          required: false
+          type: string
+        - in: query
+          name: score_diff
+          description: "The differences between student's score and the batch score"
+          required: true
+          type: integer
+          format: int32
+        - in: query
+          name: majors
+          description: 'A list of key words used to filter the majors'
+          required: true
+          type: array
+          item: string
+      responses:
+        "200":
+          description: "Successful response"
+          schema:
+            $ref: "#/definitions/recommendation"
+        "404":
+          description: "Not found"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/descriptions/Error"
+
+  /admin/batch-score:
+  /admin/enrollment-university:
+  /admin/enrollment-major:
+  /admin/ranking:
 
 definitions:
+  Recommendation:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: Unique identifier for the recommendation
+      university:
+        $ref: "#/definitions/University"
+      major:
+        type: string
+      year:
+        type: integer
+        format: int32
+      stu_count:
+        type: integer
+        format: int32
+        description: Number of students enrolled in the university
+      score_avg:
+        type: integer
+        format: int32
+        description: Average score for the university
+      rank:
+        type: integer
+        format: int32
+        description: Ranking of the score in the province
+      score_batch:
+        type: integer
+        format: int32
+        description: Score of the batch
+      score_diff:
+        type: integer
+        format: int32
+        description: Differences between score_avg and score_batch
+
   Archive:
     type: object
     properties:
