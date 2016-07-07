@@ -6,21 +6,25 @@
 --------------------------------------------------------
 CREATE TABLE "ARCHIVE"
     (   "ID" NUMBER,
-        "YEAR" NUMBER,
-        "STU_SRC" VARCHAR2(999),
-        "STU_TYPE" VARCHAR2(999),
-        "BATCH" NUMBER
+        "YEAR" NUMBER(4),
+        "STU_SRC" NVARCHAR2(999),
+        "STU_TYPE" NVARCHAR2(999),
+        "BATCH" NUMBER(1)
     ) ;
 
+COMMENT ON COLUMN ARCHIVE.STU_SRC
+   IS 'Province that the student took the College Entrance Examination';
+COMMENT ON COLUMN ARCHIVE.STU_TYPE
+   IS 'Type of the student: Arts/Sciences';
 --------------------------------------------------------
 --  DDL for Table UNIVERSITY
 --------------------------------------------------------
 CREATE TABLE "UNIVERSITY"
     (   "ID" NUMBER,
-        "NAME" VARCHAR2(999),
-        "PROVINCE" VARCHAR2(999),
-        "IS_985" NUMBER,
-        "IS_211" NUMBER
+        "NAME" NVARCHAR2(999),
+        "PROVINCE" NVARCHAR2(999),
+        "IS_985" NUMBER(1),
+        "IS_211" NUMBER(1)
     ) ;
 
 --------------------------------------------------------
@@ -28,7 +32,7 @@ CREATE TABLE "UNIVERSITY"
 --------------------------------------------------------
 CREATE TABLE "RANKING"
     (   "ID" NUMBER,
-        "A_ID" NUMBER,
+        "ARCHIVE_ID" NUMBER NOT NULL,
         "SCORE" NUMBER,
         "STU_COUNT" NUMBER,
         "RANK" NUMBER
@@ -39,7 +43,7 @@ CREATE TABLE "RANKING"
 --------------------------------------------------------
 CREATE TABLE "BATCH_SCORE"
     (   "ID" NUMBER,
-        "A_ID" NUMBER,
+        "ARCHIVE_ID" NUMBER NOT NULL,
         "MIN_SCORE" NUMBER
     ) ;
 
@@ -48,8 +52,8 @@ CREATE TABLE "BATCH_SCORE"
 --------------------------------------------------------
 CREATE TABLE "ENROLLMENT_UNIVERSITY"
     (   "ID" NUMBER,
-        "A_ID" NUMBER,
-        "U_ID" NUMBER,
+        "ARCHIVE_ID" NUMBER NOT NULL,
+        "UNIVERSITY_ID" NUMBER NOT NULL,
         "SCORE_AVG" NUMBER,
         "STU_COUNT" NUMBER
     ) ;
@@ -59,9 +63,9 @@ CREATE TABLE "ENROLLMENT_UNIVERSITY"
 --------------------------------------------------------
 CREATE TABLE "ENROLLMENT_MAJOR"
     (   "ID" NUMBER,
-        "A_ID" NUMBER,
-        "U_ID" NUMBER,
-        "MAJOR" VARCHAR2(999),
+        "ARCHIVE_ID" NUMBER NOT NULL,
+        "UNIVERSITY_ID" NUMBER NOT NULL,
+        "MAJOR" NVARCHAR2(999),
         "SCORE_AVG" NUMBER
     ) ;
 --------------------------------------------------------
@@ -69,8 +73,9 @@ CREATE TABLE "ENROLLMENT_MAJOR"
 --------------------------------------------------------
 CREATE TABLE "TRANSLATION"
     (   "ID" NUMBER,
+        "CHINESE" NVARCHAR2(999),
         "ENGLISH" VARCHAR2(999),
-        "CHINESE" VARCHAR2(999)
+        "CATEGORY" VARCHAR2(999)
     ) ;
 
 --------------------------------------------------------
