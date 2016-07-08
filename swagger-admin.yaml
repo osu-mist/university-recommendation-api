@@ -1,0 +1,300 @@
+swagger: '2.0'
+info:
+  title: University Recommendation API
+  version: '0.0'
+  license:
+    name: GNU Affero General Public License Version 3
+    url: http://www.gnu.org/licenses/agpl-3.0.en.html
+externalDocs:
+  description: GitHub Repository
+  url: https://github.com/osu-mist/web-api-skeleton
+host: localhost
+schemes:
+  - http
+basePath: /api/v0
+consumes:
+  - text/plain
+produces:
+  - application/json
+paths:
+  /admin/batch-score:
+    post:
+      tags:
+        - admin
+      description: "Add a new batch score"
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: "batch score which will be added"
+          required: true
+          schema:
+            $ref: "#/definitions/BatchScore"
+      responses:
+        "201":
+          description: "Resource created"
+          schema:
+            $ref: "#/definitions/BatchScore"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+        "405":
+          description: "Invalid input"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal server errors"
+          schema:
+            $ref: "#/definitions/Errors"
+  /admin/rankings:
+    post:
+      tags:
+        - admin
+      description: "Add a list of rankings"
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: "Rankings which will be added"
+          required: true
+          schema:
+            $ref: "#/definitions/Rankings"
+      responses:
+        "201":
+          description: "Resource created"
+          schema:
+            $ref: "#/definitions/Rankings"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+        "405":
+          description: "Invalid input"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal server errors"
+          schema:
+            $ref: "#/definitions/Errors"
+
+  /admin/enrollment-university:
+    post:
+      tags:
+        - admin
+      description: "Add a list of records of university enrollment"
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: "records of university enrollment which will be added"
+          required: true
+          schema:
+            $ref: "#/definitions/EnrollmentUniversities"
+      responses:
+        "201":
+          description: "Resource created"
+          schema:
+            $ref: "#/definitions/EnrollmentUniversities"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+        "405":
+          description: "Invalid input"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal server errors"
+          schema:
+            $ref: "#/definitions/Errors"
+
+  /admin/enrollment-major:
+    post:
+      tags:
+        - admin
+      description: "Add a list of records of major enrollment"
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: "records of major enrollment which will be added"
+          required: true
+          schema:
+            $ref: "#/definitions/EnrollmentMajors"
+      responses:
+        "201":
+          description: "Resource created"
+          schema:
+            $ref: "#/definitions/EnrollmentMajors"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+        "405":
+          description: "Invalid input"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal server errors"
+          schema:
+            $ref: "#/definitions/Errors"
+
+definitions:
+# ----------------------------------------------------------
+# Each Student belongs to one student pool,
+#   and only care about the students in the same pool.
+# ----------------------------------------------------------
+  StudentPool:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: "Unique identifier for the StudentPool"
+      province:
+        type: string
+        description: "Province that the student took the College Entrance Examination"
+      stu_type:
+        type: string
+        description: "Type of the student-[arts, sciences]"
+      batch:
+        type: integer
+        format: int32
+        description: "An integer indicates the batch-[1, 2, 3]"
+
+# ----------------------------------------------------------
+# BatchScore object
+# ----------------------------------------------------------
+  BatchScore:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: "Unique identifier for the batchScore"
+      student_pool:
+        $ref: "#/definitions/StudentPool"
+      year:
+        type: integer
+        format: int32
+      min_score:
+        type: integer
+        format: int32"
+        description: "Minimum score of the batch"
+
+# ----------------------------------------------------------
+# Ranking object
+# ----------------------------------------------------------
+  Ranking:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: "Unique identifier for the ranking"
+      student_pool:
+        $ref: "#/definitions/StudentPool"
+      year:
+        type: integer
+        format: int32
+      score:
+        type: integer
+        format: int32
+        description: "Score of the examination"
+      stu_count:
+        type: integer
+        format: int32
+        description: "Number of students received the score"
+      rank:
+        type: integer
+        format: int32
+        description: "Ranking of the score in the province"
+
+  Rankings:
+    title: ArrayOfRanking
+    type: array
+    items:
+      $ref: "#/definitions/Ranking"
+
+# ----------------------------------------------------------
+# EnrollmentUniversity object
+# ----------------------------------------------------------
+  EnrollmentUniversity:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: "Unique identifier for the EnrollmentUniversity"
+      university:
+        type: string
+        description: "Name of the university"
+      student_pool:
+        $ref: "#/definitions/StudentPool"
+      score_avg:
+        type: integer
+        format: int32
+        description: "Average score for the university"
+      stu_count:
+        type: integer
+        format: int32
+        description: "Number of students enrolled in the university"
+
+  EnrollmentUniversities:
+    type: array
+    items:
+      $ref: "#/definitions/EnrollmentUniversity"
+
+# ----------------------------------------------------------
+# EnrollmentMajor object
+# ----------------------------------------------------------
+  EnrollmentMajor:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: "Unique identifier for the EnrollmentMajor"
+      university:
+        type: string
+        description: "Name of the university"
+      student_pool:
+        $ref: "#/definitions/StudentPool"
+      major:
+        type: string
+      score_avg:
+        type: integer
+        format: int32
+        description: "Average score for the major"
+
+  EnrollmentMajors:
+    type: array
+    items:
+      $ref: "#/definitions/EnrollmentMajor"
+
+# ----------------------------------------------------------
+  Error:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      developerMessage:
+        type: string
+      userMesage:
+        type: string
+      code:
+        type: integer
+      details:
+        type: string
+
+  Errors:
+    title: ArrayOfErrors
+    type: array
+    items:
+      $ref: "#/definitions/Error"
