@@ -75,7 +75,7 @@ paths:
         "500":
           description: "Internal Server Error"
           schema:
-            $ref: "#/descriptions/Error"
+            $ref: "#/definitions/Error"
 
   /recommendations/ranking/majors:
     get:
@@ -125,10 +125,9 @@ paths:
           format: int32
         - in: query
           name: majors
-          description: 'A list of key words used to filter the majors'
+          description: "A string of key words used to filter the majors, seperated by space "
           required: true
-          type: array
-          item: string
+          type: string
       responses:
         "200":
           description: "Successful response"
@@ -141,7 +140,7 @@ paths:
         "500":
           description: "Internal Server Error"
           schema:
-            $ref: "#/descriptions/Error"
+            $ref: "#/definitions/Error"
 
   /recommendations/score:
     get:
@@ -195,7 +194,7 @@ paths:
         "500":
           description: "Internal Server Error"
           schema:
-            $ref: "#/descriptions/Error"
+            $ref: "#/definitions/Error"
 
   /recommendations/score/major:
     get:
@@ -239,10 +238,9 @@ paths:
           format: int32
         - in: query
           name: majors
-          description: 'A list of key words used to filter the majors'
+          description: "A string of key words used to filter the majors, seperated by space "
           required: true
-          type: array
-          item: string
+          type: string
       responses:
         "200":
           description: "Successful response"
@@ -255,7 +253,7 @@ paths:
         "500":
           description: "Internal Server Error"
           schema:
-            $ref: "#/descriptions/Error"
+            $ref: "#/definitions/Error"
 
   /admin/batch-score:
     post:
@@ -325,7 +323,7 @@ paths:
     post:
       tags:
         - admin
-      definitions: "Add a list of records of university enrollment"
+      description: "Add a list of records of university enrollment"
       produces:
         - application/json
       parameters:
@@ -357,7 +355,7 @@ paths:
     post:
       tags:
         - admin
-      definitions: "Add a list of records of major enrollment"
+      description: "Add a list of records of major enrollment"
       produces:
         - application/json
       parameters:
@@ -430,6 +428,7 @@ definitions:
       is_211:
         type: boolean
         description: "is the university in the 211 program"
+
 # ----------------------------------------------------------
 # Recommendation object
 # ----------------------------------------------------------
@@ -475,6 +474,26 @@ definitions:
       $ref: "#/definitions/Recommendation"
 
 # ----------------------------------------------------------
+# BatchScore object
+# ----------------------------------------------------------
+  BatchScore:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: "Unique identifier for the batchScore"
+      student_pool:
+        $ref: "#/definitions/StudentPool"
+      year:
+        type: integer
+        format: int32
+      min_score:
+        type: integer
+        format: int32"
+        description: "Minimum score of the batch"
+
+# ----------------------------------------------------------
 # Ranking object
 # ----------------------------------------------------------
   Ranking:
@@ -485,7 +504,7 @@ definitions:
         format: int32
         description: "Unique identifier for the ranking"
       student_pool:
-        $ref: "#definitions/StudentPool"
+        $ref: "#/definitions/StudentPool"
       year:
         type: integer
         format: int32
@@ -507,26 +526,6 @@ definitions:
     type: array
     items:
       $ref: "#/definitions/Ranking"
-
-# ----------------------------------------------------------
-# BatchScore object
-# ----------------------------------------------------------
-  BatchScore:
-    type: object
-    properties:
-      id:
-        type: integer
-        format: int32
-        description: "Unique identifier for the batchScore"
-      student_pool:
-        $ref: "#definitions/StudentPool"
-      year:
-        type: integer
-        format: int32
-      min_score:
-        type: integer
-        format: int32"
-        description: "Minimum score of the batch"
 
 # ----------------------------------------------------------
 # EnrollmentUniversity object
@@ -556,6 +555,7 @@ definitions:
     type: array
     items:
       $ref: "#/definitions/EnrollmentUniversity"
+
 # ----------------------------------------------------------
 # EnrollmentMajor object
 # ----------------------------------------------------------
@@ -570,7 +570,7 @@ definitions:
         type: string
         description: "Name of the university"
       student_pool:
-        $ref: "#definitions/StudentPool"
+        $ref: "#/definitions/StudentPool"
       major:
         type: string
       score_avg:
@@ -580,7 +580,7 @@ definitions:
 
   EnrollmentMajors:
     type: array
-    item:
+    items:
       $ref: "#/definitions/EnrollmentMajor"
 
 # ----------------------------------------------------------
@@ -598,3 +598,9 @@ definitions:
         type: integer
       details:
         type: string
+
+  Errors:
+    title: ArrayOfErrors
+    type: array
+    items:
+      $ref: "#/definitions/Error"
