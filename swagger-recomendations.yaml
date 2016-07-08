@@ -1,14 +1,8 @@
 swagger: '2.0'
 info:
   title: University Recommendation API
+  description: "This portion of the API aims at providing a list of recommendation of universities based on a student's ranking or score."
   version: '0.0'
-  license:
-    name: GNU Affero General Public License Version 3
-    url: http://www.gnu.org/licenses/agpl-3.0.en.html
-externalDocs:
-  description: GitHub Repository
-  url: https://github.com/osu-mist/web-api-skeleton
-host: localhost
 schemes:
   - http
 basePath: /api/v0
@@ -21,17 +15,17 @@ paths:
     get:
       tags:
         - recommendations
-      description: 'Get a list of recommendations'
+      description: "Get a list of statistical data of the universities based on a student's ranking; if majors are given, returns the statistics related to the majors."
       operationId: getRecommendationsByRanking
       produces:
         - application/json
       parameters:
         - name: stu_type
           in: query
-          description: "Type of student, arts/sciences"
+          description: "Type of student: arts/sciences"
           required: true
           type: string
-        - name: stu_src
+        - name: province
           in: query
           description: "Province that the student took the College Entrance Examination"
           required: true
@@ -43,82 +37,33 @@ paths:
           type: integer
           format: int32
         - in: query
-          name: rank_base
-          description: "Ranking of the score"
-          required: true
-          type: integer
-          format: int32
-        - in: query
-          name: rank_range
-          description: "Positive integer indicates the range. real range will be (rank_base - rank_range, rank_base + rank_range)"
-          required: true
-          type: integer
-          format: int32
-      responses:
-        "200":
-          description: "Successful response"
-          schema:
-            $ref: "#/definitions/Recommendations"
-        "404":
-          description: "Not found"
-          schema:
-            $ref: "#/definitions/Error"
-        "500":
-          description: "Internal Server Error"
-          schema:
-            $ref: "#/definitions/Error"
-
-  /recommendations/ranking/majors:
-    get:
-      tags:
-        - recommendations
-      description: 'Get a list of recommendations'
-      operationId: getRecommendationsByRankingAndMajor
-      produces:
-        - application/json
-      parameters:
-        - in: query
-          name: page[size]
-          description: "Number of results to return. Used in pagination. Default value is 10."
+          name: year
           required: false
-          type: string
+          description: "Year of the records"
+          type: integer
+          format: int32
         - in: query
-          name: page[number]
-          description: "Page number of results. Used to paginate through results."
-          required: false
-          type: string
-        - name: stu_type
-          in: query
-          description: "Type of student, arts/sciences"
-          required: true
-          type: string
-        - name: stu_src
-          in: query
-          description: "Province that the student took the College Entrance Examination"
-          required: true
-          type: string
-        - name: batch
-          in: query
-          description: "Batch that the student belongs to"
-          required: true
-          type: string
-        - in: query
-          name: rank_base
-          description: "Ranking of the score"
+          name: rank_min
+          description: "Minimum ranking of the student"
           required: true
           type: integer
           format: int32
         - in: query
-          name: rank_range
-          description: "Positive integer indicates the range. Actual range will be (rank_base - rank_range, rank_base + rank_range)"
+          name: rank_max
+          description: "Maximum ranking of the student"
           required: true
           type: integer
           format: int32
         - in: query
           name: majors
-          description: "A string of key words used to filter the majors, seperated by space "
-          required: true
+          description: "A string of key words seperated by space"
+          required: false
           type: string
+        - in: query
+          name: language
+          description: "Display Language: EN/CN"
+          type: string
+          required: false
       responses:
         "200":
           description: "Successful response"
@@ -133,31 +78,21 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
-  /recommendations/score:
+  /recommendations/score-diff:
     get:
       tags:
         - recommendations
-      description: 'Get a list of recommendations'
-      operationId: getRecommendationsByScore
+      description: "Get a list of statistical data of the universities based on the score difference between a student's score and the batch score; if majors are given, returns the statistics related to the majors."
+      operationId: getRecommendationsByScoreDiff
       produces:
         - application/json
       parameters:
-        - in: query
-          name: page[size]
-          description: "Number of results to return. Used in pagination. Default value is 10."
-          required: false
-          type: string
-        - in: query
-          name: page[number]
-          description: "Page number of results. Used to paginate through results."
-          required: false
-          type: string
         - name: stu_type
           in: query
-          description: "Type of student, arts/sciences"
+          description: "Type of student: arts/sciences"
           required: true
           type: string
-        - name: stu_src
+        - name: province
           in: query
           description: "Province that the student took the College Entrance Examination"
           required: true
@@ -165,73 +100,37 @@ paths:
         - name: batch
           in: query
           description: "Batch that the student belongs to"
-          required: true
-          type: string
-        - in: query
-          name: score_diff
-          description: "The differences between student's score and the batch score"
           required: true
           type: integer
           format: int32
-      responses:
-        "200":
-          description: "Successful response"
-          schema:
-            $ref: "#/definitions/Recommendations"
-        "404":
-          description: "Not found"
-          schema:
-            $ref: "#/definitions/Error"
-        "500":
-          description: "Internal Server Error"
-          schema:
-            $ref: "#/definitions/Error"
-
-  /recommendations/score/major:
-    get:
-      tags:
-        - recommendations
-      description: 'Get a list of recommendations'
-      operationId: getRecommendationsByScore
-      produces:
-        - application/json
-      parameters:
         - in: query
-          name: page[size]
-          description: "Number of results to return. Used in pagination. Default value is 10."
+          name: year
           required: false
-          type: string
+          description: "Year of the records"
+          type: integer
+          format: int32
         - in: query
-          name: page[number]
-          description: "Page number of results. Used to paginate through results."
-          required: false
-          type: string
-        - name: stu_type
-          in: query
-          description: "Type of student, arts/sciences"
+          name: score_diff_min
+          description: "The minimum differences between student's score and the batch score"
           required: true
-          type: string
-        - name: stu_src
-          in: query
-          description: "Province that the student took the College Entrance Examination"
-          required: true
-          type: string
-        - name: batch
-          in: query
-          description: "Batch that the student belongs to"
-          required: true
-          type: string
+          type: integer
+          format: int32
         - in: query
-          name: score_diff
-          description: "The differences between student's score and the batch score"
+          name: score_diff_max
+          description: "The maximum differences between student's score and the batch score"
           required: true
           type: integer
           format: int32
         - in: query
           name: majors
-          description: "A string of key words used to filter the majors, seperated by space "
-          required: true
+          description: "A string of key words seperated by space"
+          required: false
           type: string
+        - in: query
+          name: language
+          description: "Display Language: EN/CN"
+          type: string
+          required: false
       responses:
         "200":
           description: "Successful response"
@@ -267,7 +166,7 @@ definitions:
       stu_count:
         type: integer
         format: int32
-        description: "Number of students enrolled in the university"
+        description: "Number of students enrolled in the university in the given year"
       score_avg:
         type: integer
         format: int32
@@ -279,7 +178,7 @@ definitions:
       score_batch:
         type: integer
         format: int32
-        description: "Score of the batch"
+        description: "Minimum score of the batch that the students is in"
       score_diff:
         type: integer
         format: int32
@@ -309,11 +208,13 @@ definitions:
         description: "Province where the university locates"
       is_985:
         type: boolean
-        description: "is the university in the 985 program"
+        description: "Is the university in the 985 program"
       is_211:
         type: boolean
-        description: "is the university in the 211 program"
+        description: "Is the university in the 211 program"
 
+# ----------------------------------------------------------
+# Error object
 # ----------------------------------------------------------
   Error:
     type: object
@@ -329,9 +230,3 @@ definitions:
         type: integer
       details:
         type: string
-
-  Errors:
-    title: ArrayOfErrors
-    type: array
-    items:
-      $ref: "#/definitions/Error"
