@@ -17,7 +17,15 @@ consumes:
 produces:
   - application/json
 paths:
+  /recommendations/ranking
+  /recommendations/ranking/major
+  /recommendations/score-diff
+  /recommendations/score-diff/major
 
+  /admin/batch-score
+  /admin/enrollment-university
+  /admin/enrollment-major
+  /admin/ranking
 
 definitions:
   Archive:
