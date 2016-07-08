@@ -268,10 +268,56 @@ paths:
           description: "Internal server errors"
           schema:
             $ref: "#/definitions/Errors"
+
+  /admin/enrollment-universities/{id}:
+    put:
+      tags:
+        - admin
+      description: "Update an enrollment-university record"
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          description: "Unique Identifier for enrollment-university"
+          in: path
+          required: true
+          type: integer
+          format: int32
+        - name: body
+          in: body
+          description: "enrollment-university which will be updated"
+          required: true
+          schema:
+            $ref: "#/definitions/EnrollmentUniversity"
+      responses:
+        "200":
+          description: "Successful response"
+          schema:
+            $ref: "#/definitions/EnrollmentUniversity"
+        "201":
+          description: "Resource created"
+          schema:
+            $ref: "#/definitions/EnrollmentUniversity"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+        "404":
+          description: "Not found"
+          schema:
+            $ref: "#/definitions/Error"
+        "405":
+          description: "Invalid input"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Errors"
 #------------------------------------------------------
 #
 #------------------------------------------------------
-  /admin/enrollment-major:
+  /admin/enrollment-majors:
     get:
       tags:
         - admin
@@ -340,6 +386,51 @@ paths:
           schema:
             $ref: "#/definitions/Errors"
 
+  /admin/enrollment-majors/{id}:
+    put:
+      tags:
+        - admin
+      description: "Update an enrollment-major record"
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          description: "Unique Identifier for enrollment-major"
+          in: path
+          required: true
+          type: integer
+          format: int32
+        - name: body
+          in: body
+          description: "enrollment-major which will be updated"
+          required: true
+          schema:
+            $ref: "#/definitions/EnrollmentMajor"
+      responses:
+        "200":
+          description: "Successful response"
+          schema:
+            $ref: "#/definitions/EnrollmentMajor"
+        "201":
+          description: "Resource created"
+          schema:
+            $ref: "#/definitions/EnrollmentMajor"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+        "404":
+          description: "Not found"
+          schema:
+            $ref: "#/definitions/Error"
+        "405":
+          description: "Invalid input"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Errors"
 definitions:
 # ----------------------------------------------------------
 # Each Student belongs to one student pool,
