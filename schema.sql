@@ -4,18 +4,21 @@
 --------------------------------------------------------
 --  DDL for Table ARCHIVE
 --------------------------------------------------------
-CREATE TABLE "ARCHIVE"
+CREATE TABLE "STUDENT_POOL"
     (   "ID" NUMBER,
-        "YEAR" NUMBER(4),
-        "STU_SRC" NVARCHAR2(999),
+        "PROVINCE" NVARCHAR2(999),
         "STU_TYPE" NVARCHAR2(999),
         "BATCH" NUMBER(1)
     ) ;
 
-COMMENT ON COLUMN ARCHIVE.STU_SRC
+COMMENT ON TABLE STUDENT_POOL
+    IS 'Each student belongs to one student pool, and only the information from the same student pool matters'
+COMMENT ON COLUMN STUDENT_POOL.PROVINCE
    IS 'Province that the student took the College Entrance Examination';
-COMMENT ON COLUMN ARCHIVE.STU_TYPE
+COMMENT ON COLUMN STUDENT_POOL.STU_TYPE
    IS 'Type of the student: Arts/Sciences';
+COMMENT ON COLUMN STUDENT_POOL.BATCH
+   IS 'Students are divided into different batches based on their score';
 --------------------------------------------------------
 --  DDL for Table UNIVERSITY
 --------------------------------------------------------
@@ -32,7 +35,8 @@ CREATE TABLE "UNIVERSITY"
 --------------------------------------------------------
 CREATE TABLE "RANKING"
     (   "ID" NUMBER,
-        "ARCHIVE_ID" NUMBER NOT NULL,
+        "STUDENT_POOL_ID" NUMBER NOT NULL,
+        "YEAR" NUMBER(4),
         "SCORE" NUMBER,
         "STU_COUNT" NUMBER,
         "RANK" NUMBER
@@ -43,7 +47,8 @@ CREATE TABLE "RANKING"
 --------------------------------------------------------
 CREATE TABLE "BATCH_SCORE"
     (   "ID" NUMBER,
-        "ARCHIVE_ID" NUMBER NOT NULL,
+        "STUDENT_POOL_ID" NUMBER NOT NULL,
+        "YEAR" NUMBER(4),
         "MIN_SCORE" NUMBER
     ) ;
 
@@ -52,7 +57,8 @@ CREATE TABLE "BATCH_SCORE"
 --------------------------------------------------------
 CREATE TABLE "ENROLLMENT_UNIVERSITY"
     (   "ID" NUMBER,
-        "ARCHIVE_ID" NUMBER NOT NULL,
+        "STUDENT_POOL_ID" NUMBER NOT NULL,
+        "YEAR" NUMBER(4),
         "UNIVERSITY_ID" NUMBER NOT NULL,
         "SCORE_AVG" NUMBER,
         "STU_COUNT" NUMBER
@@ -63,8 +69,9 @@ CREATE TABLE "ENROLLMENT_UNIVERSITY"
 --------------------------------------------------------
 CREATE TABLE "ENROLLMENT_MAJOR"
     (   "ID" NUMBER,
-        "ARCHIVE_ID" NUMBER NOT NULL,
+        "STUDENT_POOL_ID" NUMBER NOT NULL,
         "UNIVERSITY_ID" NUMBER NOT NULL,
+        "YEAR" NUMBER(4),
         "MAJOR" NVARCHAR2(999),
         "SCORE_AVG" NUMBER
     ) ;
