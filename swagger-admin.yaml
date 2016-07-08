@@ -21,6 +21,33 @@ paths:
 # post/put/delete batch-score
 #------------------------------------------------------
   /admin/batch-scores:
+    get:
+      description: |
+        GET returns a list of batch-scores
+      parameters:
+        - name: stu_type
+          in: query
+          description: "Type of student, arts/sciences"
+          required: false
+          type: string
+        - name: stu_src
+          in: query
+          description: "Province that the student took the College Entrance Examination"
+          required: false
+          type: string
+        - name: batch
+          in: query
+          description: "Batch that the student belongs to"
+          required: false
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/BatchScores'
+        404:
+          description: Shelf does not exist
     post:
       tags:
         - admin
@@ -169,10 +196,48 @@ paths:
           description: "Internal server errors"
           schema:
             $ref: "#/definitions/Errors"
+
 #------------------------------------------------------
-# 
+# Enrollment-university opeations
 #------------------------------------------------------
-  /admin/enrollment-university:
+  /admin/enrollment-universities:
+    get:
+      tags:
+        - admin
+      description: 'Get a list of enrollment records of universities'
+      operationId: getEnronllmentUniversity
+      produces:
+        - application/json
+      parameters:
+        - name: stu_type
+          in: query
+          description: "Type of student, arts/sciences"
+          required: false
+          type: string
+        - name: stu_src
+          in: query
+          description: "Province that the student took the College Entrance Examination"
+          required: false
+          type: string
+        - name: batch
+          in: query
+          description: "Batch that the student belongs to"
+          required: false
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: "Successful response"
+          schema:
+            $ref: "#/definitions/EnrollmentUniversity"
+        "404":
+          description: "Not found"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/Error"
     post:
       tags:
         - admin
@@ -204,9 +269,46 @@ paths:
           schema:
             $ref: "#/definitions/Errors"
 #------------------------------------------------------
-# 
+#
 #------------------------------------------------------
   /admin/enrollment-major:
+    get:
+      tags:
+        - admin
+      description: 'Get a list of enrollment records of majors'
+      operationId: getEnronllmentUniversity
+      produces:
+        - application/json
+      parameters:
+        - name: stu_type
+          in: query
+          description: "Type of student, arts/sciences"
+          required: false
+          type: string
+        - name: stu_src
+          in: query
+          description: "Province that the student took the College Entrance Examination"
+          required: false
+          type: string
+        - name: batch
+          in: query
+          description: "Batch that the student belongs to"
+          required: false
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: "Successful response"
+          schema:
+            $ref: "#/definitions/EnrollmentMajors"
+        "404":
+          description: "Not found"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/Error"
     post:
       tags:
         - admin
@@ -281,6 +383,11 @@ definitions:
         format: int32"
         description: "Minimum score of the batch"
 
+  BatchScores:
+    title: ArrayOfBatchScore
+    type: array
+    items:
+      $ref: "#/definitions/BatchScore"
 # ----------------------------------------------------------
 # Ranking object
 # ----------------------------------------------------------

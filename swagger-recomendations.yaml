@@ -26,16 +26,6 @@ paths:
       produces:
         - application/json
       parameters:
-        - in: query
-          name: page[size]
-          description: "Number of results to return. Used in pagination. Default value is 10."
-          required: false
-          type: string
-        - in: query
-          name: page[number]
-          description: "Page number of results. Used to paginate through results."
-          required: false
-          type: string
         - name: stu_type
           in: query
           description: "Type of student, arts/sciences"
@@ -50,7 +40,8 @@ paths:
           in: query
           description: "Batch that the student belongs to"
           required: true
-          type: string
+          type: integer
+          format: int32
         - in: query
           name: rank_base
           description: "Ranking of the score"
