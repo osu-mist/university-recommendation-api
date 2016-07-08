@@ -69,6 +69,10 @@ paths:
           description: "Successful response"
           schema:
             $ref: "#/definitions/Recommendations"
+        "204":
+          description: "No content"
+          schema:
+            $ref: "#/definitions/Error"
         "404":
           description: "Not found"
           schema:
@@ -136,6 +140,10 @@ paths:
           description: "Successful response"
           schema:
             $ref: "#/definitions/Recommendations"
+        "204":
+          description: "No content"
+          schema:
+            $ref: "#/definitions/Error"
         "404":
           description: "Not found"
           schema:

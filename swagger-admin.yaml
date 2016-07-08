@@ -1,14 +1,8 @@
 swagger: '2.0'
 info:
   title: University Recommendation API
+  description: "This portion of the API provides the endpoints to update the enrollment data."
   version: '0.0'
-  license:
-    name: GNU Affero General Public License Version 3
-    url: http://www.gnu.org/licenses/agpl-3.0.en.html
-externalDocs:
-  description: GitHub Repository
-  url: https://github.com/osu-mist/web-api-skeleton
-host: localhost
 schemes:
   - http
 basePath: /api/v0
@@ -22,15 +16,15 @@ paths:
 #------------------------------------------------------
   /admin/batch-scores:
     get:
-      description: |
-        GET returns a list of batch-scores
+      description: "Get a list of batch-scores"
+      operationId: getBatchScores
       parameters:
         - name: stu_type
           in: query
-          description: "Type of student, arts/sciences"
+          description: "Type of student: arts/sciences"
           required: false
           type: string
-        - name: stu_src
+        - name: province
           in: query
           description: "Province that the student took the College Entrance Examination"
           required: false
@@ -42,22 +36,33 @@ paths:
           type: integer
           format: int32
       responses:
-        200:
+        "200":
           description: Successful response
           schema:
             $ref: '#/definitions/BatchScores'
-        404:
-          description: Shelf does not exist
+        "204":
+          description: "No content"
+          schema:
+            $ref: "#/definitions/Error"
+        "404":
+          description: "Not found"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/Error"
     post:
       tags:
         - admin
       description: "Add a new batch score"
+      operationId: addBatchScore
       produces:
         - application/json
       parameters:
         - name: body
           in: body
-          description: "batch score which will be added"
+          description: "Batch score which will be added"
           required: true
           schema:
             $ref: "#/definitions/BatchScore"
@@ -75,15 +80,16 @@ paths:
           schema:
             $ref: "#/definitions/Error"
         "500":
-          description: "Internal server errors"
+          description: "Internal server error"
           schema:
-            $ref: "#/definitions/Errors"
+            $ref: "#/definitions/Error"
 
   /admin/batch-scores/{id}:
     put:
       tags:
         - admin
       description: "Update a batch score"
+      operationId: updateBatchScore
       produces:
         - application/json
       parameters:
@@ -95,7 +101,7 @@ paths:
           format: int32
         - name: body
           in: body
-          description: "batch score which will be added"
+          description: "Batch score which will be added"
           required: true
           schema:
             $ref: "#/definitions/BatchScore"
@@ -123,11 +129,12 @@ paths:
         "500":
           description: "Internal server error"
           schema:
-            $ref: "#/definitions/Errors"
+            $ref: "#/definitions/Error"
     delete:
       tags:
         - admin
       description: "Delete a batch score"
+      operationId: deleteBatchScore
       produces:
         - application/json
       parameters:
@@ -139,17 +146,13 @@ paths:
           format: int32
         - name: body
           in: body
-          description: "batch score which will be added"
+          description: "Batch score which will be added"
           required: true
           schema:
             $ref: "#/definitions/BatchScore"
       responses:
         "200":
           description: "Successful response"
-        "204":
-          description: "No content"
-          schema:
-            $ref: "#/definitions/Error"
         "400":
           description: "Invalid value"
           schema:
@@ -158,10 +161,14 @@ paths:
           description: "Unauthorized"
           schema:
             $ref: "#/definitions/Error"
-        "500":
-          description: "Internal server errors"
+        "404":
+          description: "Not found"
           schema:
-            $ref: "#/definitions/Errors"
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error"
 #------------------------------------------------------
 # Rankings
 #------------------------------------------------------
@@ -170,6 +177,7 @@ paths:
       tags:
         - admin
       description: "Add a list of rankings"
+      operationId: "addRankings"
       produces:
         - application/json
       parameters:
@@ -193,9 +201,9 @@ paths:
           schema:
             $ref: "#/definitions/Error"
         "500":
-          description: "Internal server errors"
+          description: "Internal server error"
           schema:
-            $ref: "#/definitions/Errors"
+            $ref: "#/definitions/Error"
 
 #------------------------------------------------------
 # Enrollment-university opeations
@@ -205,16 +213,16 @@ paths:
       tags:
         - admin
       description: 'Get a list of enrollment records of universities'
-      operationId: getEnronllmentUniversity
+      operationId: getEnronllmentUniversities
       produces:
         - application/json
       parameters:
         - name: stu_type
           in: query
-          description: "Type of student, arts/sciences"
+          description: "Type of student: arts/sciences"
           required: false
           type: string
-        - name: stu_src
+        - name: province
           in: query
           description: "Province that the student took the College Entrance Examination"
           required: false
@@ -229,7 +237,11 @@ paths:
         "200":
           description: "Successful response"
           schema:
-            $ref: "#/definitions/EnrollmentUniversity"
+            $ref: "#/definitions/EnrollmentUniversities"
+        "204":
+          description: "No content"
+          schema:
+            $ref: "#/definitions/Error"
         "404":
           description: "Not found"
           schema:
@@ -242,12 +254,13 @@ paths:
       tags:
         - admin
       description: "Add a list of records of university enrollment"
+      operationId: addEnrollmentUniversities
       produces:
         - application/json
       parameters:
         - name: body
           in: body
-          description: "records of university enrollment which will be added"
+          description: "Records of university enrollment which will be added"
           required: true
           schema:
             $ref: "#/definitions/EnrollmentUniversities"
@@ -265,15 +278,16 @@ paths:
           schema:
             $ref: "#/definitions/Error"
         "500":
-          description: "Internal server errors"
+          description: "Internal server error"
           schema:
-            $ref: "#/definitions/Errors"
+            $ref: "#/definitions/Error"
 
   /admin/enrollment-universities/{id}:
     put:
       tags:
         - admin
       description: "Update an enrollment-university record"
+      operationId: updateEnrollmentUniversity
       produces:
         - application/json
       parameters:
@@ -285,7 +299,7 @@ paths:
           format: int32
         - name: body
           in: body
-          description: "enrollment-university which will be updated"
+          description: "Enrollment-university which will be updated"
           required: true
           schema:
             $ref: "#/definitions/EnrollmentUniversity"
@@ -313,7 +327,7 @@ paths:
         "500":
           description: "Internal server error"
           schema:
-            $ref: "#/definitions/Errors"
+            $ref: "#/definitions/Error"
 #------------------------------------------------------
 #
 #------------------------------------------------------
@@ -322,16 +336,16 @@ paths:
       tags:
         - admin
       description: 'Get a list of enrollment records of majors'
-      operationId: getEnronllmentUniversity
+      operationId: getEnronllmentMajors
       produces:
         - application/json
       parameters:
         - name: stu_type
           in: query
-          description: "Type of student, arts/sciences"
+          description: "Type of student: arts/sciences"
           required: false
           type: string
-        - name: stu_src
+        - name: province
           in: query
           description: "Province that the student took the College Entrance Examination"
           required: false
@@ -347,6 +361,10 @@ paths:
           description: "Successful response"
           schema:
             $ref: "#/definitions/EnrollmentMajors"
+        "204":
+          description: "No content"
+          schema:
+            $ref: "#/definitions/Error"
         "404":
           description: "Not found"
           schema:
@@ -359,12 +377,13 @@ paths:
       tags:
         - admin
       description: "Add a list of records of major enrollment"
+      operationId: addEnronllmentMajors
       produces:
         - application/json
       parameters:
         - name: body
           in: body
-          description: "records of major enrollment which will be added"
+          description: "Records of major enrollment which will be added"
           required: true
           schema:
             $ref: "#/definitions/EnrollmentMajors"
@@ -382,15 +401,16 @@ paths:
           schema:
             $ref: "#/definitions/Error"
         "500":
-          description: "Internal server errors"
+          description: "Internal server error"
           schema:
-            $ref: "#/definitions/Errors"
+            $ref: "#/definitions/Error"
 
   /admin/enrollment-majors/{id}:
     put:
       tags:
         - admin
       description: "Update an enrollment-major record"
+      operationId: updateEnronllmentMajor
       produces:
         - application/json
       parameters:
@@ -402,7 +422,7 @@ paths:
           format: int32
         - name: body
           in: body
-          description: "enrollment-major which will be updated"
+          description: "Enrollment-major which will be updated"
           required: true
           schema:
             $ref: "#/definitions/EnrollmentMajor"
@@ -430,7 +450,7 @@ paths:
         "500":
           description: "Internal server error"
           schema:
-            $ref: "#/definitions/Errors"
+            $ref: "#/definitions/Error"
 definitions:
 # ----------------------------------------------------------
 # Each Student belongs to one student pool,
@@ -570,6 +590,8 @@ definitions:
       $ref: "#/definitions/EnrollmentMajor"
 
 # ----------------------------------------------------------
+# Error object
+# ----------------------------------------------------------
   Error:
     type: object
     properties:
@@ -585,8 +607,3 @@ definitions:
       details:
         type: string
 
-  Errors:
-    title: ArrayOfErrors
-    type: array
-    items:
-      $ref: "#/definitions/Error"
