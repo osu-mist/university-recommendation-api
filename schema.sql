@@ -4,23 +4,30 @@
 --------------------------------------------------------
 --  DDL for Table ARCHIVE
 --------------------------------------------------------
-CREATE TABLE "ARCHIVE"
+CREATE TABLE "STUDENT_POOL"
     (   "ID" NUMBER,
-        "YEAR" NUMBER,
-        "STU_SRC" VARCHAR2(999),
-        "STU_TYPE" VARCHAR2(999),
-        "BATCH" NUMBER
+        "PROVINCE" NVARCHAR2(999),
+        "STU_TYPE" NVARCHAR2(999),
+        "BATCH" NUMBER(1)
     ) ;
 
+COMMENT ON TABLE STUDENT_POOL
+    IS 'Each student belongs to one student pool, and only the information from the same student pool matters'
+COMMENT ON COLUMN STUDENT_POOL.PROVINCE
+   IS 'Province that the student took the College Entrance Examination';
+COMMENT ON COLUMN STUDENT_POOL.STU_TYPE
+   IS 'Type of the student: Arts/Sciences';
+COMMENT ON COLUMN STUDENT_POOL.BATCH
+   IS 'Students are divided into different batches based on their score';
 --------------------------------------------------------
 --  DDL for Table UNIVERSITY
 --------------------------------------------------------
 CREATE TABLE "UNIVERSITY"
     (   "ID" NUMBER,
-        "NAME" VARCHAR2(999),
-        "PROVINCE" VARCHAR2(999),
-        "IS_985" NUMBER,
-        "IS_211" NUMBER
+        "NAME" NVARCHAR2(999),
+        "PROVINCE" NVARCHAR2(999),
+        "IS_985" NUMBER(1),
+        "IS_211" NUMBER(1)
     ) ;
 
 --------------------------------------------------------
@@ -28,7 +35,8 @@ CREATE TABLE "UNIVERSITY"
 --------------------------------------------------------
 CREATE TABLE "RANKING"
     (   "ID" NUMBER,
-        "A_ID" NUMBER,
+        "STUDENT_POOL_ID" NUMBER NOT NULL,
+        "YEAR" NUMBER(4),
         "SCORE" NUMBER,
         "STU_COUNT" NUMBER,
         "RANK" NUMBER
@@ -39,7 +47,8 @@ CREATE TABLE "RANKING"
 --------------------------------------------------------
 CREATE TABLE "BATCH_SCORE"
     (   "ID" NUMBER,
-        "A_ID" NUMBER,
+        "STUDENT_POOL_ID" NUMBER NOT NULL,
+        "YEAR" NUMBER(4),
         "MIN_SCORE" NUMBER
     ) ;
 
@@ -48,8 +57,9 @@ CREATE TABLE "BATCH_SCORE"
 --------------------------------------------------------
 CREATE TABLE "ENROLLMENT_UNIVERSITY"
     (   "ID" NUMBER,
-        "A_ID" NUMBER,
-        "U_ID" NUMBER,
+        "STUDENT_POOL_ID" NUMBER NOT NULL,
+        "YEAR" NUMBER(4),
+        "UNIVERSITY_ID" NUMBER NOT NULL,
         "SCORE_AVG" NUMBER,
         "STU_COUNT" NUMBER
     ) ;
@@ -59,9 +69,10 @@ CREATE TABLE "ENROLLMENT_UNIVERSITY"
 --------------------------------------------------------
 CREATE TABLE "ENROLLMENT_MAJOR"
     (   "ID" NUMBER,
-        "A_ID" NUMBER,
-        "U_ID" NUMBER,
-        "MAJOR" VARCHAR2(999),
+        "STUDENT_POOL_ID" NUMBER NOT NULL,
+        "UNIVERSITY_ID" NUMBER NOT NULL,
+        "YEAR" NUMBER(4),
+        "MAJOR" NVARCHAR2(999),
         "SCORE_AVG" NUMBER
     ) ;
 --------------------------------------------------------
@@ -69,8 +80,9 @@ CREATE TABLE "ENROLLMENT_MAJOR"
 --------------------------------------------------------
 CREATE TABLE "TRANSLATION"
     (   "ID" NUMBER,
+        "CHINESE" NVARCHAR2(999),
         "ENGLISH" VARCHAR2(999),
-        "CHINESE" VARCHAR2(999)
+        "CATEGORY" VARCHAR2(999)
     ) ;
 
 --------------------------------------------------------
