@@ -12,7 +12,7 @@ produces:
   - application/json
 paths:
 #------------------------------------------------------
-# post/put/delete batch-score
+# Operations for batch-score
 #------------------------------------------------------
   /admin/batch-scores:
     get:
@@ -170,7 +170,7 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 #------------------------------------------------------
-# Rankings
+# Operation for Ranking
 #------------------------------------------------------
   /admin/rankings:
     post:
@@ -206,7 +206,7 @@ paths:
             $ref: "#/definitions/Error"
 
 #------------------------------------------------------
-# Enrollment-university opeations
+# Opeations for enrollment-university
 #------------------------------------------------------
   /admin/enrollment-universities:
     get:
@@ -329,7 +329,7 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 #------------------------------------------------------
-#
+# Operations for enrollment-majors
 #------------------------------------------------------
   /admin/enrollment-majors:
     get:
@@ -453,8 +453,7 @@ paths:
             $ref: "#/definitions/Error"
 definitions:
 # ----------------------------------------------------------
-# Each Student belongs to one student pool,
-#   and only care about the students in the same pool.
+# StudentPool Object
 # ----------------------------------------------------------
   StudentPool:
     type: object
