@@ -119,7 +119,7 @@ paths:
           format: int32
         - in: query
           name: rank_range
-          description: "Positive integer indicates the range. real range will be (rank_base - rank_range, rank_base + rank_range)"
+          description: "Positive integer indicates the range. Actual range will be (rank_base - rank_range, rank_base + rank_range)"
           required: true
           type: integer
           format: int32
@@ -322,10 +322,33 @@ paths:
             $ref: "#/definitions/Errors"
 
   /admin/enrollment-university:
+
   /admin/enrollment-major:
 
 
 definitions:
+# ----------------------------------------------------------
+# Each Student belongs to one student pool,
+#   and only care about the students in the same pool.
+# ----------------------------------------------------------
+  StudentPool:
+    type: object
+    properties:
+      type: integer
+        format: int32
+        description: Unique identifier for the StudentPool
+      stu_src:
+        type: string
+        description: Province that the students come from
+      stu_type:
+        type: string
+        description: Type of the student-[arts, sciences]
+      batch:
+        type: integer
+        format: int32
+        description: An integer indicates the batch-[1, 2, 3]
+# ----------------------------------------------------------
+
   Recommendation:
     type: object
     properties:
@@ -458,14 +481,10 @@ definitions:
         type: integer
         format: int32
         description: Unique identifier for the EnrollmentUniversity
-      u_id:
-        type: integer
-        format: int32
-        description: Identifier that related to the university
-      a_id:
-        type: integer
-        format: int32
-        description: Identifier that related to the archive
+      university:
+        $ref: "#/definitions/University"
+      student_pool:
+        $ref: "#/definitions/StudentPool"
       score_avg:
         type: integer
         format: int32
