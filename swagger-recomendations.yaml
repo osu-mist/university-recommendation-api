@@ -2,10 +2,10 @@ swagger: '2.0'
 info:
   title: University Recommendation API
   description: "This portion of the API aims at providing a list of recommendation of universities based on a student's ranking or score."
-  version: '0.0'
+  version: '1.0'
 schemes:
   - http
-basePath: /api/v0
+basePath: /api/v1
 consumes:
   - text/plain
 produces:
@@ -160,10 +160,6 @@ definitions:
   Recommendation:
     type: object
     properties:
-      id:
-        type: integer
-        format: int32
-        description: "Unique identifier for the recommendation"
       university:
         $ref: "#/definitions/University"
       major:
@@ -204,10 +200,6 @@ definitions:
   University:
     type: object
     properties:
-      id:
-        type: integer
-        format: int32
-        description: "Unique 4-digit identifier for the university"
       name:
         type: string
         description: "Name of the university"
