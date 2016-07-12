@@ -1,0 +1,594 @@
+swagger: '2.0'
+info:
+  title: University Recommendation API
+  description: "This portion of the API provides the endpoints to update the enrollment data."
+  version: '1.0'
+schemes:
+  - http
+basePath: /api/v1
+consumes:
+  - text/plain
+produces:
+  - application/json
+paths:
+#------------------------------------------------------
+# Operations for batch-score
+#------------------------------------------------------
+  /admin/batch-scores:
+    get:
+      description: "Get a list of batch-scores"
+      operationId: getBatchScores
+      parameters:
+        - name: stu_type
+          in: query
+          description: "Type of student: arts/sciences"
+          required: false
+          type: string
+        - name: province
+          in: query
+          description: "Province that the student took the College Entrance Examination"
+          required: false
+          type: string
+        - name: batch
+          in: query
+          description: "Batch that the student belongs to"
+          required: false
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: '#/definitions/BatchScores'
+        "204":
+          description: "No content"
+          schema:
+            $ref: "#/definitions/Error"
+        "404":
+          description: "Not found"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/Error"
+    post:
+      tags:
+        - admin
+      description: "Add a new batch score"
+      operationId: addBatchScore
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: "Batch score which will be added"
+          required: true
+          schema:
+            $ref: "#/definitions/BatchScore"
+      responses:
+        "201":
+          description: "Resource created"
+          schema:
+            $ref: "#/definitions/BatchScore"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+        "405":
+          description: "Invalid input"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error"
+
+  /admin/batch-scores/{id}:
+    put:
+      tags:
+        - admin
+      description: "Update a batch score"
+      operationId: updateBatchScore
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          description: "Unique Identifier for batch score"
+          in: path
+          required: true
+          type: integer
+          format: int32
+        - name: body
+          in: body
+          description: "Batch score which will be added"
+          required: true
+          schema:
+            $ref: "#/definitions/BatchScore"
+      responses:
+        "200":
+          description: "Successful response"
+          schema:
+            $ref: "#/definitions/BatchScore"
+        "201":
+          description: "Resource created"
+          schema:
+            $ref: "#/definitions/BatchScore"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+        "404":
+          description: "Not found"
+          schema:
+            $ref: "#/definitions/Error"
+        "405":
+          description: "Invalid input"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      tags:
+        - admin
+      description: "Delete a batch score"
+      operationId: deleteBatchScore
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          description: "Unique Identifier for batch score"
+          in: path
+          required: true
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: "Successful response"
+        "400":
+          description: "Invalid value"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+        "404":
+          description: "Not found"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error"
+#------------------------------------------------------
+# Operation for Ranking
+#------------------------------------------------------
+  /admin/rankings:
+    post:
+      tags:
+        - admin
+      description: "Add a list of rankings"
+      operationId: "addRankings"
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: "Rankings which will be added"
+          required: true
+          schema:
+            $ref: "#/definitions/Rankings"
+      responses:
+        "201":
+          description: "Resource created"
+          schema:
+            $ref: "#/definitions/Rankings"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+        "405":
+          description: "Invalid input"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error"
+
+#------------------------------------------------------
+# Opeations for enrollment-university
+#------------------------------------------------------
+  /admin/enrollment-universities:
+    get:
+      tags:
+        - admin
+      description: 'Get a list of enrollment records of universities'
+      operationId: getEnronllmentUniversities
+      produces:
+        - application/json
+      parameters:
+        - name: stu_type
+          in: query
+          description: "Type of student: arts/sciences"
+          required: false
+          type: string
+        - name: province
+          in: query
+          description: "Province that the student took the College Entrance Examination"
+          required: false
+          type: string
+        - name: batch
+          in: query
+          description: "Batch that the student belongs to"
+          required: false
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: "Successful response"
+          schema:
+            $ref: "#/definitions/EnrollmentUniversities"
+        "204":
+          description: "No content"
+          schema:
+            $ref: "#/definitions/Error"
+        "404":
+          description: "Not found"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/Error"
+    post:
+      tags:
+        - admin
+      description: "Add a list of records of university enrollment"
+      operationId: addEnrollmentUniversities
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: "Records of university enrollment which will be added"
+          required: true
+          schema:
+            $ref: "#/definitions/EnrollmentUniversities"
+      responses:
+        "201":
+          description: "Resource created"
+          schema:
+            $ref: "#/definitions/EnrollmentUniversities"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+        "405":
+          description: "Invalid input"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error"
+
+  /admin/enrollment-universities/{id}:
+    put:
+      tags:
+        - admin
+      description: "Update an enrollment-university record"
+      operationId: updateEnrollmentUniversity
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          description: "Unique Identifier for enrollment-university"
+          in: path
+          required: true
+          type: integer
+          format: int32
+        - name: body
+          in: body
+          description: "Enrollment-university which will be updated"
+          required: true
+          schema:
+            $ref: "#/definitions/EnrollmentUniversity"
+      responses:
+        "200":
+          description: "Successful response"
+          schema:
+            $ref: "#/definitions/EnrollmentUniversity"
+        "201":
+          description: "Resource created"
+          schema:
+            $ref: "#/definitions/EnrollmentUniversity"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+        "404":
+          description: "Not found"
+          schema:
+            $ref: "#/definitions/Error"
+        "405":
+          description: "Invalid input"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error"
+#------------------------------------------------------
+# Operations for enrollment-majors
+#------------------------------------------------------
+  /admin/enrollment-majors:
+    get:
+      tags:
+        - admin
+      description: 'Get a list of enrollment records of majors'
+      operationId: getEnronllmentMajors
+      produces:
+        - application/json
+      parameters:
+        - name: stu_type
+          in: query
+          description: "Type of student: arts/sciences"
+          required: false
+          type: string
+        - name: province
+          in: query
+          description: "Province that the student took the College Entrance Examination"
+          required: false
+          type: string
+        - name: batch
+          in: query
+          description: "Batch that the student belongs to"
+          required: false
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: "Successful response"
+          schema:
+            $ref: "#/definitions/EnrollmentMajors"
+        "204":
+          description: "No content"
+          schema:
+            $ref: "#/definitions/Error"
+        "404":
+          description: "Not found"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/Error"
+    post:
+      tags:
+        - admin
+      description: "Add a list of records of major enrollment"
+      operationId: addEnronllmentMajors
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: "Records of major enrollment which will be added"
+          required: true
+          schema:
+            $ref: "#/definitions/EnrollmentMajors"
+      responses:
+        "201":
+          description: "Resource created"
+          schema:
+            $ref: "#/definitions/EnrollmentMajors"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+        "405":
+          description: "Invalid input"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error"
+
+  /admin/enrollment-majors/{id}:
+    put:
+      tags:
+        - admin
+      description: "Update an enrollment-major record"
+      operationId: updateEnronllmentMajor
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          description: "Unique Identifier for enrollment-major"
+          in: path
+          required: true
+          type: integer
+          format: int32
+        - name: body
+          in: body
+          description: "Enrollment-major which will be updated"
+          required: true
+          schema:
+            $ref: "#/definitions/EnrollmentMajor"
+      responses:
+        "200":
+          description: "Successful response"
+          schema:
+            $ref: "#/definitions/EnrollmentMajor"
+        "201":
+          description: "Resource created"
+          schema:
+            $ref: "#/definitions/EnrollmentMajor"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+        "404":
+          description: "Not found"
+          schema:
+            $ref: "#/definitions/Error"
+        "405":
+          description: "Invalid input"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error"
+definitions:
+# ----------------------------------------------------------
+# StudentPool Object
+# ----------------------------------------------------------
+  StudentPool:
+    type: object
+    properties:
+      province:
+        type: string
+        description: "Province that the student took the College Entrance Examination"
+      stu_type:
+        type: string
+        description: "Type of the student-[arts, sciences]"
+      batch:
+        type: integer
+        format: int32
+        description: "An integer indicates the batch-[1, 2, 3]"
+
+# ----------------------------------------------------------
+# BatchScore object
+# ----------------------------------------------------------
+  BatchScore:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: "Unique identifier for the batchScore, it will be ignored if it's a POST request"
+      student_pool:
+        $ref: "#/definitions/StudentPool"
+      year:
+        type: integer
+        format: int32
+      min_score:
+        type: integer
+        format: int32"
+        description: "Minimum score of the batch"
+
+  BatchScores:
+    title: ArrayOfBatchScore
+    type: array
+    items:
+      $ref: "#/definitions/BatchScore"
+# ----------------------------------------------------------
+# Ranking object
+# ----------------------------------------------------------
+  Ranking:
+    type: object
+    properties:
+      student_pool:
+        $ref: "#/definitions/StudentPool"
+      year:
+        type: integer
+        format: int32
+      score:
+        type: integer
+        format: int32
+        description: "Score of the examination"
+      stu_count:
+        type: integer
+        format: int32
+        description: "Number of students received the score"
+      rank:
+        type: integer
+        format: int32
+        description: "Ranking of the score in the province"
+
+  Rankings:
+    title: ArrayOfRanking
+    type: array
+    items:
+      $ref: "#/definitions/Ranking"
+
+# ----------------------------------------------------------
+# EnrollmentUniversity object
+# ----------------------------------------------------------
+  EnrollmentUniversity:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: "Unique identifier for the EnrollmentUniversity, it will be ignored if it's a POST request"
+      university:
+        type: string
+        description: "Name of the university"
+      student_pool:
+        $ref: "#/definitions/StudentPool"
+      score_avg:
+        type: integer
+        format: int32
+        description: "Average score for the university"
+      stu_count:
+        type: integer
+        format: int32
+        description: "Number of students enrolled in the university"
+
+  EnrollmentUniversities:
+    type: array
+    items:
+      $ref: "#/definitions/EnrollmentUniversity"
+
+# ----------------------------------------------------------
+# EnrollmentMajor object
+# ----------------------------------------------------------
+  EnrollmentMajor:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: "Unique identifier for the EnrollmentMajor, it will be ignored if it's a POST request"
+      university:
+        type: string
+        description: "Name of the university"
+      student_pool:
+        $ref: "#/definitions/StudentPool"
+      major:
+        type: string
+      score_avg:
+        type: integer
+        format: int32
+        description: "Average score for the major"
+
+  EnrollmentMajors:
+    type: array
+    items:
+      $ref: "#/definitions/EnrollmentMajor"
+
+# ----------------------------------------------------------
+# Error object
+# ----------------------------------------------------------
+  Error:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      developerMessage:
+        type: string
+      userMesage:
+        type: string
+      code:
+        type: integer
+      details:
+        type: string
+

@@ -1,0 +1,232 @@
+swagger: '2.0'
+info:
+  title: University Recommendation API
+  description: "This portion of the API aims at providing a list of recommendation of universities based on a student's ranking or score."
+  version: '1.0'
+schemes:
+  - http
+basePath: /api/v1
+consumes:
+  - text/plain
+produces:
+  - application/json
+paths:
+  /recommendations/ranking:
+    get:
+      tags:
+        - recommendations
+      description: "Get a list of statistical data of the universities based on a student's ranking; if majors are given, returns the statistics related to the majors."
+      operationId: getRecommendationsByRanking
+      produces:
+        - application/json
+      parameters:
+        - name: stu_type
+          in: query
+          description: "Type of student: arts/sciences"
+          required: true
+          type: string
+        - name: province
+          in: query
+          description: "Province that the student took the College Entrance Examination"
+          required: true
+          type: string
+        - name: batch
+          in: query
+          description: "Batch that the student belongs to"
+          required: true
+          type: integer
+          format: int32
+        - in: query
+          name: rank_min
+          description: "Minimum ranking of the student"
+          required: true
+          type: integer
+          format: int32
+        - in: query
+          name: rank_max
+          description: "Maximum ranking of the student"
+          required: true
+          type: integer
+          format: int32
+        - in: query
+          name: year
+          required: false
+          description: "Year of the records"
+          type: integer
+          format: int32
+        - in: query
+          name: majors
+          description: "A string of key words seperated by space"
+          required: false
+          type: string
+        - in: query
+          name: language
+          description: "Display Language: EN/CN"
+          type: string
+          required: false
+      responses:
+        "200":
+          description: "Successful response"
+          schema:
+            $ref: "#/definitions/Recommendations"
+        "204":
+          description: "No content"
+          schema:
+            $ref: "#/definitions/Error"
+        "404":
+          description: "Not found"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/Error"
+
+  /recommendations/score-diff:
+    get:
+      tags:
+        - recommendations
+      description: "Get a list of statistical data of the universities based on the score difference between a student's score and the batch score; if majors are given, returns the statistics related to the majors."
+      operationId: getRecommendationsByScoreDiff
+      produces:
+        - application/json
+      parameters:
+        - name: stu_type
+          in: query
+          description: "Type of student: arts/sciences"
+          required: true
+          type: string
+        - name: province
+          in: query
+          description: "Province that the student took the College Entrance Examination"
+          required: true
+          type: string
+        - name: batch
+          in: query
+          description: "Batch that the student belongs to"
+          required: true
+          type: integer
+          format: int32
+        - in: query
+          name: score_diff_min
+          description: "The minimum differences between student's score and the batch score"
+          required: true
+          type: integer
+          format: int32
+        - in: query
+          name: score_diff_max
+          description: "The maximum differences between student's score and the batch score"
+          required: true
+          type: integer
+          format: int32
+        - in: query
+          name: year
+          required: false
+          description: "Year of the records"
+          type: integer
+          format: int32
+        - in: query
+          name: majors
+          description: "A string of key words seperated by space"
+          required: false
+          type: string
+        - in: query
+          name: language
+          description: "Display Language: EN/CN"
+          type: string
+          required: false
+      responses:
+        "200":
+          description: "Successful response"
+          schema:
+            $ref: "#/definitions/Recommendations"
+        "204":
+          description: "No content"
+          schema:
+            $ref: "#/definitions/Error"
+        "404":
+          description: "Not found"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/Error"
+
+definitions:
+# ----------------------------------------------------------
+# Recommendation object
+# ----------------------------------------------------------
+  Recommendation:
+    type: object
+    properties:
+      university:
+        $ref: "#/definitions/University"
+      major:
+        type: string
+      year:
+        type: integer
+        format: int32
+      stu_count:
+        type: integer
+        format: int32
+        description: "Number of students enrolled in the university in the given year"
+      score_avg:
+        type: integer
+        format: int32
+        description: "Average score for the university"
+      rank:
+        type: integer
+        format: int32
+        description: "Ranking of the score in the province"
+      score_batch:
+        type: integer
+        format: int32
+        description: "Minimum score of the batch that the students is in"
+      score_diff:
+        type: integer
+        format: int32
+        description: "Differences between score_avg and score_batch"
+
+  Recommendations:
+    title: ArrayOfRecommendation
+    type: array
+    items:
+      $ref: "#/definitions/Recommendation"
+
+# ----------------------------------------------------------
+# University object
+# ----------------------------------------------------------
+  University:
+    type: object
+    properties:
+      name:
+        type: string
+        description: "Name of the university"
+      province:
+        type: string
+        description: "Province where the university locates"
+      is_985:
+        type: boolean
+        description: "Is the university in the 985 program"
+      is_211:
+        type: boolean
+        description: "Is the university in the 211 program"
+
+# ----------------------------------------------------------
+# Error object
+# ----------------------------------------------------------
+  Error:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      developerMessage:
+        type: string
+      userMesage:
+        type: string
+      code:
+        type: integer
+      details:
+        type: string
