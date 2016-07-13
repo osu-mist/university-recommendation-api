@@ -11,7 +11,7 @@ consumes:
 produces:
   - application/json
 paths:
-  /recommendations/ranking:
+  /recommendations/rankings:
     get:
       tags:
         - recommendations
@@ -20,7 +20,7 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: stu_type
+        - name: student_type
           in: query
           description: "Type of student: arts/sciences"
           required: true
@@ -64,6 +64,18 @@ paths:
           description: "Display Language: EN/CN"
           type: string
           required: false
+        - in: query
+          name: page_size
+          description: "Number of results to return. Used in pagination. Default value is 10."
+          required: false
+          type: integer
+          format: int32
+        - in: query
+          name: page_number
+          description: "Page number of results. Used to paginate through results. Default value is 1."
+          required: false
+          type: integer
+          format: int32
       responses:
         "200":
           description: "Successful response"
@@ -82,7 +94,7 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
-  /recommendations/score-diff:
+  /recommendations/score-diffs:
     get:
       tags:
         - recommendations
@@ -91,7 +103,7 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: stu_type
+        - name: student_type
           in: query
           description: "Type of student: arts/sciences"
           required: true
@@ -135,6 +147,18 @@ paths:
           description: "Display Language: EN/CN"
           type: string
           required: false
+        - in: query
+          name: page_size
+          description: "Number of results to return. Used in pagination. Default value is 10."
+          required: false
+          type: integer
+          format: int32
+        - in: query
+          name: page_number
+          description: "Page number of results. Used to paginate through results. Default value is 1."
+          required: false
+          type: integer
+          format: int32
       responses:
         "200":
           description: "Successful response"
