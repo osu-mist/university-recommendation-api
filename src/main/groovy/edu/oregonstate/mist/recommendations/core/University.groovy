@@ -5,7 +5,6 @@ package edu.oregonstate.mist.recommendations.core
  */
 class University {
     String name
-    String province
     Integer is985
     Integer is211
 }

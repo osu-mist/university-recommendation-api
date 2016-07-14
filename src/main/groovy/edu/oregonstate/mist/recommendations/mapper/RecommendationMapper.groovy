@@ -17,10 +17,10 @@ public class RecommendationMapper implements ResultSetMapper<Recommendation>{
         new Recommendation(
                 id:            r.getInt('R_NUM'),
                 university:    new University(
-                            name:   r.getNString('UNIVERSITY'),
-                            is985:  r.getInt('IS_985'),
-                            is211:  r.getInt('IS_211'),
-                         ),
+                                name:   r.getNString('UNIVERSITY'),
+                                is985:  r.getInt('IS_985'),
+                                is211:  r.getInt('IS_211'),
+                                ),
                 major:         r.getNString('MAJOR'),
                 year:          r.getInt('YEAR'),
                 studentCount:  r.getInt('STU_COUNT'),
