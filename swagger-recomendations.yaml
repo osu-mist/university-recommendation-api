@@ -22,7 +22,7 @@ paths:
       parameters:
         - name: by
           in: query
-          description: "Get recommendation by ranking or score-diff"
+          description: "Get recommendation by: ranking/score-diff"
           type: string
           required: true
         - name: student_type
@@ -149,9 +149,6 @@ definitions:
       name:
         type: string
         description: "Name of the university"
-      province:
-        type: string
-        description: "Province where the university locates"
       is_985:
         type: boolean
         description: "Is the university in the 985 program"
