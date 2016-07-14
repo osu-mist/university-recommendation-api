@@ -1,7 +1,11 @@
 package edu.oregonstate.mist.recommendations
 
 import edu.oregonstate.mist.api.Resource
+import edu.oregonstate.mist.recommendations.db.RecommendationDAO
+import edu.oregonstate.mist.recommendations.resources.RecommendationResource
+import io.dropwizard.jdbi.DBIFactory
 import io.dropwizard.setup.Environment
+import org.skife.jdbi.v2.DBI
 
 class RecommendationApplication extends io.dropwizard.Application<RecommendationConfiguration> {
     /**
@@ -15,6 +19,15 @@ class RecommendationApplication extends io.dropwizard.Application<Recommendation
     @Override
     void run(RecommendationConfiguration configuration, Environment environment) throws Exception {
         Resource.loadProperties('resource.properties')
-        
+        final DBIFactory factory = new DBIFactory()
+        final DBI jdbi = factory.build(environment, configuration.getDatabase(), "jdbi")
+
+        final RecommendationDAO recommendationDAO = jdbi.onDemand(RecommendationDAO.class)
+
+        environment.jersey().register(new RecommendationResource(recommendationDAO))
+
+        //health check
     }
+
+
 }

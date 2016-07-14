@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType
 /**
  * Recommendation Resource Class
  */
-@Path('/recommendation/')
+@Path('/recommendations/')
 @Produces(MediaType.APPLICATION_JSON)
 class RecommendationResource extends Resource {
     private final RecommendationDAO recommendationDAO
@@ -23,16 +23,16 @@ class RecommendationResource extends Resource {
     }
 
     @GET
-    @Path('rankings')
     @Produces(MediaType.APPLICATION_JSON)
     public List<Recommendation> getRecommendationsByRank(
+             @QueryParam('by') String by,
              @QueryParam('stu_type') String studentType,
              @QueryParam('province') String province,
              @QueryParam('batch') Integer batch,
-             @QueryParam('rank_min') Integer rankMin,
-             @QueryParam('rank_max') Integer rankMax,
+             @QueryParam('lower_limit') Integer lowerLimit,
+             @QueryParam('upper_limit') Integer upperLimit,
              @QueryParam('year') OptionalInt  year,
-             @QueryParam('majors')  Optional<String> majors,
+             @QueryParam('major')  Optional<String> majors,
              @QueryParam('language') Optional<String> language,
              @QueryParam('page_size') OptionalInt pageSize,
              @QueryParam('page_number') OptionalInt pageNum){
