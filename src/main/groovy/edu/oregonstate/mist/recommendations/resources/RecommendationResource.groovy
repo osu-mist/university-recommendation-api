@@ -3,6 +3,7 @@ package edu.oregonstate.mist.recommendations.resources
 import edu.oregonstate.mist.api.Resource
 import edu.oregonstate.mist.recommendations.core.Recommendation
 import edu.oregonstate.mist.recommendations.db.RecommendationDAO
+import org.hibernate.validator.constraints.NotEmpty
 
 import javax.ws.rs.GET
 import javax.ws.rs.Path
@@ -25,20 +26,53 @@ class RecommendationResource extends Resource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Recommendation> getRecommendationsByRank(
-             @QueryParam('by') String by,
-             @QueryParam('stu_type') String studentType,
-             @QueryParam('province') String province,
-             @QueryParam('batch') Integer batch,
-             @QueryParam('lower_limit') Integer lowerLimit,
-             @QueryParam('upper_limit') Integer upperLimit,
-             @QueryParam('year') OptionalInt  year,
-             @QueryParam('major')  Optional<String> majors,
-             @QueryParam('language') Optional<String> language,
-             @QueryParam('page_size') OptionalInt pageSize,
-             @QueryParam('page_number') OptionalInt pageNum){
-        List<Recommendation> recommendationList = recommendationDAO.getUniversitiesByRank(
-                "福建","理科", 1, 5000, 8000, 2015, 10, 0 )
-        recommendationList
+            @QueryParam('by') @NotEmpty String by,
+            @QueryParam('stu_type') @NotEmpty String studentType,
+            @QueryParam('province') @NotEmpty String province,
+            @QueryParam('batch') @NotEmpty Integer batch,
+            @QueryParam('lower_limit') @NotEmpty Integer lowerLimit,
+            @QueryParam('upper_limit') @NotEmpty Integer upperLimit,
+            @QueryParam('year') OptionalInt  year,
+            @QueryParam('major')  Optional<String> major,
+            @QueryParam('language') Optional<String> language,
+            @QueryParam('page_size') OptionalInt pageSize,
+            @QueryParam('page_number') OptionalInt pageNum){
+
+            List<Recommendation> recommendationList
+            if(by.toLowerCase()== "ranking"){
+                if(major.isPresent()){
+//                  recommendationList = RecommendationDAO.getMajorsByRank()
+                }else{
+                    recommendationList = recommendationDAO.getUniversitiesByRank(
+                            "福建","理科", 1, 5000, 8000, 2015, 10, 0 )
+                }
+            }else if(bytoLowerCase() == "score-diff"){
+                // TO-DO
+            }
+
+            recommendationList
     }
 
+    /**
+     * Translate Student Type into Chinese if needed
+     * @param stuType
+     * @return Student Type In Chinese
+     */
+    private String translateStuType(String stuType){
+        if(stuType.toLowerCase() == "arts"){
+            stuType = "文科"
+        }else if(stuType.toCharArray() == "science"){
+            stuType = "理科"
+        }
+        return stuType
+    }
+
+    /**
+     * Translate Province parameter into Chinese if needed
+     * @param province
+     * @return
+     */
+    private String translateProvince(String province){
+        return "福建"
+    }
 }

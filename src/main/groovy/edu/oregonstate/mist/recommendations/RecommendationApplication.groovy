@@ -3,11 +3,12 @@ package edu.oregonstate.mist.recommendations
 import edu.oregonstate.mist.api.Resource
 import edu.oregonstate.mist.recommendations.db.RecommendationDAO
 import edu.oregonstate.mist.recommendations.resources.RecommendationResource
+import io.dropwizard.Application
 import io.dropwizard.jdbi.DBIFactory
 import io.dropwizard.setup.Environment
 import org.skife.jdbi.v2.DBI
 
-class RecommendationApplication extends io.dropwizard.Application<RecommendationConfiguration> {
+class RecommendationApplication extends Application<RecommendationConfiguration> {
     /**
      * When the application runs, this is called after the {@link Bundle}s are run. Override it to add
      * providers, resources, etc. for your application.
@@ -29,5 +30,14 @@ class RecommendationApplication extends io.dropwizard.Application<Recommendation
         //health check
     }
 
+    /**
+     * Instantiates the application class with command-line arguments.
+     *
+     * @param arguments
+     * @throws Exception
+     */
+    public static void main(String[] arguments) throws Exception {
+        new RecommendationApplication().run(arguments)
+    }
 
 }
