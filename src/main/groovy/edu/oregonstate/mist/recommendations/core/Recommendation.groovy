@@ -4,6 +4,7 @@ package edu.oregonstate.mist.recommendations.core
  * Recommendation Class
  */
 class Recommendation {
+    Integer id
     University university
     String major
     Integer year

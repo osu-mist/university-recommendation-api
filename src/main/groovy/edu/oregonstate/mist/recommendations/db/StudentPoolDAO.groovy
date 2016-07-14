@@ -24,5 +24,5 @@ public interface StudentPoolDAO extends Cloneable{
                       @Bind("province") String province,
                       @Bind("batch") Integer batch
                       )
-    
+
 }
