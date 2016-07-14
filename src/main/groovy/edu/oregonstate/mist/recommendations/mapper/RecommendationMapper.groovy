@@ -1,6 +1,7 @@
 package edu.oregonstate.mist.recommendations.mapper
 
 import edu.oregonstate.mist.recommendations.core.Recommendation
+import edu.oregonstate.mist.recommendations.core.University
 import org.skife.jdbi.v2.StatementContext
 import org.skife.jdbi.v2.tweak.ResultSetMapper
 
@@ -11,22 +12,16 @@ import java.sql.SQLException
  */
 public class RecommendationMapper implements ResultSetMapper<Recommendation>{
 
-    /**
-     * Map the row the result set is at when passed in. This method should not cause the result
-     * set to advance, allow jDBI to do that, please.
-     *
-     * @param index which row of the result set we are at, starts at 0
-     * @param r     the result set being iterated
-     * @param ctx
-     * @return the value to return for this row
-     * @throws SQLException if anythign goes wrong go ahead and let this percolate, jDBI will handle it
-     */
     @Override
     Recommendation map(int index, ResultSet r, StatementContext ctx) throws SQLException {
         new Recommendation(
                 id:            r.getInt('R_NUM'),
-                university.id: r.getInt('UNIVERSITY_ID'),
-                major:         r.getString('MAJOR'),
+                university:    new University(
+                            name:   r.getNString('UNIVERSITY'),
+                            is985:  r.getInt('IS_985'),
+                            is211:  r.getInt('IS_211'),
+                         ),
+                major:         r.getNString('MAJOR'),
                 year:          r.getInt('YEAR'),
                 studentCount:  r.getInt('STU_COUNT'),
                 scoreAvg:      r.getInt('SCORE_AVG'),
