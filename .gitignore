@@ -11,6 +11,7 @@ configuration.yaml
 *.ipr
 *.iws
 .idea/
+bin/
 
 # Mac OS X
 .DS_Store
