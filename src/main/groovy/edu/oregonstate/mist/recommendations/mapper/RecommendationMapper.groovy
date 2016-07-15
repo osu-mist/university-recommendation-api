@@ -26,7 +26,7 @@ public class RecommendationMapper implements ResultSetMapper<Recommendation> {
                 studentCount:  r.getInt('STU_COUNT'),
                 scoreAvg:      r.getInt('SCORE_AVG'),
                 rank:          r.getInt('RANK'),
-                scoreBatch:    r.getInt('SCORE_BATCH'),
+                scoreBatch:    r.getInt('BATCH_SCORE'),
                 scoreDiff:     r.getInt('SCORE_DIFF'),
         )
     }

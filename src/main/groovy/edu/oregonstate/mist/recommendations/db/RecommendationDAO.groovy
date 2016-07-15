@@ -24,7 +24,8 @@ public interface RecommendationDAO extends Closeable {
                            ENROLLMENT_UNIVERSITY.STU_COUNT,
                            RANKING.RANK,
                            BATCH_SCORE.MIN_SCORE AS BATCH_SCORE,
-                           (ENROLLMENT_UNIVERSITY.SCORE_AVG - BATCH_SCORE.MIN_SCORE) AS SCORE_DIFF
+                           (ENROLLMENT_UNIVERSITY.SCORE_AVG - BATCH_SCORE.MIN_SCORE) AS SCORE_DIFF,
+                           NULL AS MAJOR
                     FROM ENROLLMENT_UNIVERSITY
                       LEFT JOIN RANKING
                       ON RANKING.YEAR = ENROLLMENT_UNIVERSITY.YEAR AND
@@ -44,7 +45,7 @@ public interface RecommendationDAO extends Closeable {
                          ) AND
                          RANK >= :minRank AND
                          RANK <= :maxRank AND
-                         ENROLLMENT_UNIVERSITY.YEAR like '%:year%'
+                         ENROLLMENT_UNIVERSITY.YEAR like '%' ||:year|| '%'
                     ORDER BY ENROLLMENT_UNIVERSITY.UNIVERSITY_ID, ENROLLMENT_UNIVERSITY.YEAR ) T
                 )
                 WHERE R_NUM > :pageSize * :pageNum AND
@@ -72,7 +73,8 @@ public interface RecommendationDAO extends Closeable {
                            ENROLLMENT_MAJOR.SCORE_AVG,
                            RANKING.RANK,
                            BATCH_SCORE.MIN_SCORE AS BATCH_SCORE,
-                           (ENROLLMENT_MAJOR.SCORE_AVG - BATCH_SCORE.MIN_SCORE) AS SCORE_DIFF
+                           (ENROLLMENT_MAJOR.SCORE_AVG - BATCH_SCORE.MIN_SCORE) AS SCORE_DIFF,
+                           NULL AS STU_COUNT
                     FROM ENROLLMENT_MAJOR
                       LEFT JOIN RANKING
                       ON RANKING.YEAR = ENROLLMENT_MAJOR.YEAR AND
@@ -92,8 +94,8 @@ public interface RecommendationDAO extends Closeable {
                          ) AND
                          RANK >= :minRank AND
                          RANK <= :maxRank AND
-                         ENROLLMENT_MAJOR.YEAR like '%:year%' AND
-                         ENROLLMENT_MAJOR.MAJOR like '%:major%'
+                         ENROLLMENT_MAJOR.YEAR like '%' ||:year|| '%' AND
+                         ENROLLMENT_MAJOR.MAJOR like '%' ||:major|| '%'
                     ORDER BY ENROLLMENT_MAJOR.UNIVERSITY_ID, ENROLLMENT_MAJOR.YEAR ) T
                 )
                 WHERE R_NUM > :pageSize * :pageNum AND

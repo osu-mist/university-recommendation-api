@@ -1,7 +1,9 @@
 package edu.oregonstate.mist.recommendations.db
 
 /**
- * Created by shujinwu on 7/13/16.
+ * BatchScore DAO
  */
-class BatchScoreDAO {
+public interface BatchScoreDAO extends Closeable {
+    @Override
+    void close()
 }

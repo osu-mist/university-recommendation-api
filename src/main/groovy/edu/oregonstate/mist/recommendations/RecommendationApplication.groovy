@@ -2,6 +2,8 @@ package edu.oregonstate.mist.recommendations
 
 import edu.oregonstate.mist.api.Resource
 import edu.oregonstate.mist.recommendations.db.RecommendationDAO
+import edu.oregonstate.mist.recommendations.db.StudentPoolDAO
+import edu.oregonstate.mist.recommendations.health.BaseHealthCheck
 import edu.oregonstate.mist.recommendations.resources.RecommendationResource
 import io.dropwizard.Application
 import io.dropwizard.jdbi.DBIFactory
@@ -24,10 +26,12 @@ class RecommendationApplication extends Application<RecommendationConfiguration>
         final DBI JDBI = FACTORY.build(environment, configuration.getDatabase(), "JDBI")
 
         final RecommendationDAO RECOMMENDATION_DAO = JDBI.onDemand(RecommendationDAO.class)
+        final StudentPoolDAO STUDENT_POOL_DAO = JDBI.onDemand(StudentPoolDAO.class)
 
         environment.jersey().register(new RecommendationResource(RECOMMENDATION_DAO))
 
         //health check
+        environment.healthChecks()register("basic health check", new BaseHealthCheck((STUDENT_POOL_DAO)))
     }
 
     /**
