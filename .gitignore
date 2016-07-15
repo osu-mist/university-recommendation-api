@@ -19,7 +19,8 @@ bin/
 # Build Properties
 build.properties
 
-#cert
+# cert
+
 *.cer
 *.keystore
 *.truststore
