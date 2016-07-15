@@ -40,12 +40,13 @@ class RecommendationResource extends Resource {
             @QueryParam('page_number') Optional<Integer> pageNum){
 
             List<Recommendation> recommendationList
+            studentType = translateStuType (studentType)
+            province = translateProvince (province)
             if (by.toLowerCase () == "ranking") {
                 if (major.isPresent ()) {
 //                  recommendationList = RecommendationDAO.getMajorsByRank()
                 }else {
-                    recommendationList = recommendationDAO.getUniversitiesByRank(
-                            "福建","理科", 1, 5000, 8000, 2015, 10, 0 )
+                    recommendationList = recommendationDAO.getUniversitiesByRank( province, studentType, batch, lowerLimit, upperLimit, year, pageSize, pageNum)
                 }
             }else if (bytoLowerCase() == "score-diff") {
                 // TO-DO
