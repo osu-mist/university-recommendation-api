@@ -20,12 +20,12 @@ class RecommendationApplication extends Application<RecommendationConfiguration>
     @Override
     void run(RecommendationConfiguration configuration, Environment environment) throws Exception {
         Resource.loadProperties('resource.properties')
-        final DBIFactory factory = new DBIFactory()
-        final DBI jdbi = factory.build(environment, configuration.getDatabase(), "jdbi")
+        final DBIFactory FACTORY = new DBIFactory()
+        final DBI JDBI = FACTORY.build(environment, configuration.getDatabase(), "JDBI")
 
-        final RecommendationDAO recommendationDAO = jdbi.onDemand(RecommendationDAO.class)
+        final RecommendationDAO RECOMMENDATION_DAO = JDBI.onDemand(RecommendationDAO.class)
 
-        environment.jersey().register(new RecommendationResource(recommendationDAO))
+        environment.jersey().register(new RecommendationResource(RECOMMENDATION_DAO))
 
         //health check
     }
@@ -39,5 +39,4 @@ class RecommendationApplication extends Application<RecommendationConfiguration>
     public static void main(String[] arguments) throws Exception {
         new RecommendationApplication().run(arguments)
     }
-
 }

@@ -10,7 +10,7 @@ import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper
  * Recommendation DAO
  */
 @RegisterMapper(RecommendationMapper)
-public interface RecommendationDAO extends Cloneable{
+public interface RecommendationDAO extends Closeable {
 
     @SqlQuery("""
               SELECT * FROM (
@@ -50,16 +50,15 @@ public interface RecommendationDAO extends Cloneable{
                 WHERE R_NUM > :pageSize * :pageNum AND
                       R_NUM <= :pageSize * :pageNum + :pageSize
               """)
-    List<Recommendation> getUniversitiesByRank(@Bind("province") String province,
-                                               @Bind("studentType") String studentType,
-                                               @Bind("batch") Integer batch,
-                                               @Bind("minRank") Integer minRank,
-                                               @Bind("maxRank") Integer maxRank,
-                                               @Bind("year") Integer year,
-                                               @Bind("pageSize") Integer pageSize,
-                                               @Bind("pageNum") Integer pageNum
+    List<Recommendation> getUniversitiesByRank (@Bind("province") String province,
+                                                @Bind("studentType") String studentType,
+                                                @Bind("batch") Integer batch,
+                                                @Bind("minRank") Integer minRank,
+                                                @Bind("maxRank") Integer maxRank,
+                                                @Bind("year") Integer year,
+                                                @Bind("pageSize") Integer pageSize,
+                                                @Bind("pageNum") Integer pageNum
                                                )
-
 
     @SqlQuery("""
                 SELECT * FROM (
@@ -100,15 +99,15 @@ public interface RecommendationDAO extends Cloneable{
                 WHERE R_NUM > :pageSize * :pageNum AND
                       R_NUM <= :pageSize * :pageNum + :pageSize
               """)
-    List<Recommendation> getMajorsByRank(@Bind("province") String province,
-                                         @Bind("studentType") String studentType,
-                                         @Bind("batch") Integer batch,
-                                         @Bind("minRank") Integer minRank,
-                                         @Bind("maxRank") Integer maxRank,
-                                         @Bind("year") Integer year,
-                                         @Bind("major") String major,
-                                         @Bind("pageSize") Integer pageSize,
-                                         @Bind("pageNum") Integer pageNum
+    List<Recommendation> getMajorsByRank (@Bind("province") String province,
+                                          @Bind("studentType") String studentType,
+                                          @Bind("batch") Integer batch,
+                                          @Bind("minRank") Integer minRank,
+                                          @Bind("maxRank") Integer maxRank,
+                                          @Bind("year") Integer year,
+                                          @Bind("major") String major,
+                                          @Bind("pageSize") Integer pageSize,
+                                          @Bind("pageNum") Integer pageNum
     )
 
     @Override

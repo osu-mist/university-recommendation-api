@@ -10,7 +10,7 @@ import java.sql.SQLException
 /**
  * Recommendation Mapper
  */
-public class RecommendationMapper implements ResultSetMapper<Recommendation>{
+public class RecommendationMapper implements ResultSetMapper<Recommendation> {
 
     @Override
     Recommendation map(int index, ResultSet r, StatementContext ctx) throws SQLException {
