@@ -15,30 +15,34 @@ import static org.mockito.Mockito.*;
  */
 public class RecommendationResourceTest {
 
-//    private static final RecommendationDAO RECOMMENDATION_DAO = mock(RecommendationDAO.class);
-//    private final List<Recommendation> recommendationList;
-//
-//    @ClassRule
-//    public static final ResourceTestRule resources = ResourceTestRule.builder()
-//            .addResource(new RecommendationResource(RECOMMENDATION_DAO))
-//            .build();
-//
-//    @Before
-//    public void setup () {
-////        when(RECOMMENDATION_DAO.getUniversitiesByRank("理科", "福建", 1, 5000, 10000,2015, 10, 1)).thenReturn(recommendationList)
-//    }
-//
-//    @Test
-//    public void getRecommendations () throws Exception {
-////        resources.client().target("/recommendations?" +
-////                "by=ranking&&stu_type=science&&province=fujian&&batch=1&lower_limit=5000&upper_limit=8000&&year=2015").request();
-//    }
-//
-//    @After
-//    public void tearDown (){
-//        // we have to reset the mock after each test because of the
-//        // @ClassRule, or use a @Rule as mentioned below.
-//        reset(RECOMMENDATION_DAO);
-//    }
+    private static final RecommendationDAO RECOMMENDATION_DAO = mock(RecommendationDAO.class);
+    private final List<Recommendation> recommendationList;
+
+    @ClassRule
+    public static final ResourceTestRule resources = ResourceTestRule.builder()
+            .addResource(new RecommendationResource(RECOMMENDATION_DAO))
+            .build();
+
+    @Before
+    public void setup () {
+
+    }
+
+    @Test
+    public void getRecommendations () throws Exception {
+
+
+        resources.client().target("/recommendations?").queryParam("by","ranking")
+                .queryParam("batch", 1).queryParam("province","fujian")
+                .queryParam("student_type","science").queryParam("lower_limit", 0)
+                .queryParam("upper_limit",3000).request().get()
+    }
+
+    @After
+    public void tearDown (){
+        // we have to reset the mock after each test because of the
+        // @ClassRule, or use a @Rule as mentioned below.
+        reset(RECOMMENDATION_DAO);
+    }
 
 }

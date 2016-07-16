@@ -12,7 +12,6 @@ import javax.ws.rs.Path
 import javax.ws.rs.Produces
 import javax.ws.rs.QueryParam
 import javax.ws.rs.core.MediaType
-import javax.ws.rs.core.Response
 
 /**
  * Recommendation Resource Class
@@ -30,7 +29,7 @@ class RecommendationResource extends Resource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Recommendation> getRecommendations(
             @QueryParam('by') @NotEmpty String by,
-            @QueryParam('stu_type') @NotEmpty String studentType,
+            @QueryParam('student_type') @NotEmpty String studentType,
             @QueryParam('province') @NotEmpty String province,
             @QueryParam('batch') @NotEmpty Integer batch,
             @QueryParam('lower_limit') @NotEmpty Integer lowerLimit,
@@ -56,19 +55,12 @@ class RecommendationResource extends Resource {
                         year.orNull(), pageSize.or(10), pageNum.or(1) - 1)
 
             }
-        } else if (bytoLowerCase() == "score-diff") {
+        } else if (by.toLowerCase() == "score-diff") {
             // TO-DO
+            recommendationList = []
         }
         if (language.isPresent() && language.get() == "EN") {
-            for (int i = 0; i < recommendationList.size(); i ++ ){
-                String universityName = recommendationList[i].getUniversity().name
-                String translate =  Resource.properties.get(universityName)
-                if (translate != null){
-                    University university = recommendationList[i].getUniversity()
-                    university.setName(translate)
-                    recommendationList[i].setUniversity(university)
-                }
-            }
+            recommendationList = translateResult (recommendationList)
         }
         recommendationList
 
@@ -79,7 +71,7 @@ class RecommendationResource extends Resource {
      * @param stuType
      * @return Student Type In Chinese
      */
-    private String translateStuType(String stuType) {
+    private String translateStuType (String stuType) {
         if (stuType.toLowerCase() == "arts") {
             stuType = "文科"
         } else if (stuType.toLowerCase() == "science") {
@@ -93,7 +85,7 @@ class RecommendationResource extends Resource {
      * @param province
      * @return
      */
-    private String translateProvince(String province)
+    private String translateProvince (String province)
     {
         String translate = Resource.properties.get(province)
         if (translate != null && translate.length() > 0) {
@@ -101,5 +93,24 @@ class RecommendationResource extends Resource {
         } else {
             province
         }
+    }
+
+    /**
+     *  Tranlate result into English
+     * @param recommendationList
+     * @return recommendationList
+     */
+    private List<Recommendation> translateResult (List<Recommendation> recommendationList) {
+
+        for (int i = 0; i < recommendationList.size(); i ++ ){
+            String universityName = recommendationList[i].getUniversity().name
+            String translate =  Resource.properties.get(universityName)
+            if (translate != null){
+                University university = recommendationList[i].getUniversity()
+                university.setName(translate)
+                recommendationList[i].setUniversity(university)
+            }
+        }
+        recommendationList
     }
 }
