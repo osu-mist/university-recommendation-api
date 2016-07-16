@@ -22,6 +22,8 @@ class RecommendationApplication extends Application<RecommendationConfiguration>
     @Override
     void run(RecommendationConfiguration configuration, Environment environment) throws Exception {
         Resource.loadProperties('resource.properties')
+        Resource.loadProperties('provinces.properties')
+        Resource.loadProperties('universities.properties')
         final DBIFactory FACTORY = new DBIFactory()
         final DBI JDBI = FACTORY.build(environment, configuration.getDatabase(), "JDBI")
 

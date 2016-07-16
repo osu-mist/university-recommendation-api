@@ -1,19 +1,18 @@
 package edu.oregonstate.mist.recommendations.resources
 
 import com.google.common.base.Optional
-import com.google.common.base.Utf8
 import edu.oregonstate.mist.api.Resource
 import edu.oregonstate.mist.recommendations.core.Recommendation
+import edu.oregonstate.mist.recommendations.core.University
 import edu.oregonstate.mist.recommendations.db.RecommendationDAO
 import org.hibernate.validator.constraints.NotEmpty
 
-import javax.ws.rs.Encoded
 import javax.ws.rs.GET
 import javax.ws.rs.Path
 import javax.ws.rs.Produces
 import javax.ws.rs.QueryParam
 import javax.ws.rs.core.MediaType
-import java.nio.charset.Charset
+import javax.ws.rs.core.Response
 
 /**
  * Recommendation Resource Class
@@ -60,8 +59,19 @@ class RecommendationResource extends Resource {
         } else if (bytoLowerCase() == "score-diff") {
             // TO-DO
         }
-
+        if (language.isPresent() && language.get() == "EN") {
+            for (int i = 0; i < recommendationList.size(); i ++ ){
+                String universityName = recommendationList[i].getUniversity().name
+                String translate =  Resource.properties.get(universityName)
+                if (translate != null){
+                    University university = recommendationList[i].getUniversity()
+                    university.setName(translate)
+                    recommendationList[i].setUniversity(university)
+                }
+            }
+        }
         recommendationList
+
     }
 
     /**
@@ -83,8 +93,13 @@ class RecommendationResource extends Resource {
      * @param province
      * @return
      */
-    private String translateProvince(String province) {
-        province = "福建"
-        province
+    private String translateProvince(String province)
+    {
+        String translate = Resource.properties.get(province)
+        if (translate != null && translate.length() > 0) {
+            translate
+        } else {
+            province
+        }
     }
 }
