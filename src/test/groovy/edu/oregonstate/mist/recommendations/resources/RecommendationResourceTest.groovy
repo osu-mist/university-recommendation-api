@@ -30,12 +30,10 @@ public class RecommendationResourceTest {
 
     @Test
     public void getRecommendations () throws Exception {
-
-
-        resources.client().target("/recommendations?").queryParam("by","ranking")
-                .queryParam("batch", 1).queryParam("province","fujian")
-                .queryParam("student_type","science").queryParam("lower_limit", 0)
-                .queryParam("upper_limit",3000).request().get()
+        // resources.client().target("/recommendations?").queryParam("by","ranking")
+        //         .queryParam("batch", 1).queryParam("province","fujian")
+        //         .queryParam("student_type","science").queryParam("lower_limit", 0)
+        //         .queryParam("upper_limit",3000).request().get()
     }
 
     @After
