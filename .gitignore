@@ -11,6 +11,7 @@ configuration.yaml
 *.ipr
 *.iws
 .idea/
+bin/
 
 # Mac OS X
 .DS_Store
@@ -19,6 +20,7 @@ configuration.yaml
 build.properties
 
 # cert
+
 *.cer
 *.keystore
 *.truststore

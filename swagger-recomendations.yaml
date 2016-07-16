@@ -11,16 +11,21 @@ consumes:
 produces:
   - application/json
 paths:
-  /recommendations/ranking:
+  /recommendations:
     get:
       tags:
         - recommendations
-      description: "Get a list of statistical data of the universities based on a student's ranking; if majors are given, returns the statistics related to the majors."
-      operationId: getRecommendationsByRanking
+      description: "Get a list of statistical data of the universities based on a student's ranking or score difference between a student's score and the batch score; if majors are given, returns the statistics related to the majors."
+      operationId: getRecommendations
       produces:
         - application/json
       parameters:
-        - name: stu_type
+        - name: by
+          in: query
+          description: "Get recommendation by: ranking/score-diff"
+          type: string
+          required: true
+        - name: student_type
           in: query
           description: "Type of student: arts/sciences"
           required: true
@@ -37,85 +42,14 @@ paths:
           type: integer
           format: int32
         - in: query
-          name: rank_min
-          description: "Minimum ranking of the student"
+          name: lower_limit
+          description: "Minimum ranking/score-diff of the student"
           required: true
           type: integer
           format: int32
         - in: query
-          name: rank_max
-          description: "Maximum ranking of the student"
-          required: true
-          type: integer
-          format: int32
-        - in: query
-          name: year
-          required: false
-          description: "Year of the records"
-          type: integer
-          format: int32
-        - in: query
-          name: majors
-          description: "A string of key words seperated by space"
-          required: false
-          type: string
-        - in: query
-          name: language
-          description: "Display Language: EN/CN"
-          type: string
-          required: false
-      responses:
-        "200":
-          description: "Successful response"
-          schema:
-            $ref: "#/definitions/Recommendations"
-        "204":
-          description: "No content"
-          schema:
-            $ref: "#/definitions/Error"
-        "404":
-          description: "Not found"
-          schema:
-            $ref: "#/definitions/Error"
-        "500":
-          description: "Internal Server Error"
-          schema:
-            $ref: "#/definitions/Error"
-
-  /recommendations/score-diff:
-    get:
-      tags:
-        - recommendations
-      description: "Get a list of statistical data of the universities based on the score difference between a student's score and the batch score; if majors are given, returns the statistics related to the majors."
-      operationId: getRecommendationsByScoreDiff
-      produces:
-        - application/json
-      parameters:
-        - name: stu_type
-          in: query
-          description: "Type of student: arts/sciences"
-          required: true
-          type: string
-        - name: province
-          in: query
-          description: "Province that the student took the College Entrance Examination"
-          required: true
-          type: string
-        - name: batch
-          in: query
-          description: "Batch that the student belongs to"
-          required: true
-          type: integer
-          format: int32
-        - in: query
-          name: score_diff_min
-          description: "The minimum differences between student's score and the batch score"
-          required: true
-          type: integer
-          format: int32
-        - in: query
-          name: score_diff_max
-          description: "The maximum differences between student's score and the batch score"
+          name: upper_limit
+          description: "Maximum ranking/score-diff of the student"
           required: true
           type: integer
           format: int32
@@ -126,15 +60,27 @@ paths:
           type: integer
           format: int32
         - in: query
-          name: majors
-          description: "A string of key words seperated by space"
+          name: major
+          description: "key word of the major name in Chinese"
           required: false
           type: string
         - in: query
           name: language
-          description: "Display Language: EN/CN"
+          description: "Display Language: EN/CN; Major translation is not supported in this version"
           type: string
           required: false
+        - in: query
+          name: page_size
+          description: "Number of results to return. Used in pagination. Default value is 10."
+          required: false
+          type: integer
+          format: int32
+        - in: query
+          name: page_number
+          description: "Page number of results. Used to paginate through results. Default value is 1."
+          required: false
+          type: integer
+          format: int32
       responses:
         "200":
           description: "Successful response"
@@ -203,9 +149,6 @@ definitions:
       name:
         type: string
         description: "Name of the university"
-      province:
-        type: string
-        description: "Province where the university locates"
       is_985:
         type: boolean
         description: "Is the university in the 985 program"

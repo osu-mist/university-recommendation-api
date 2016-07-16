@@ -14,8 +14,10 @@ paths:
 #------------------------------------------------------
 # Operations for batch-score
 #------------------------------------------------------
-  /admin/batch-scores:
+  /batch-scores:
     get:
+      tags:
+        - data-update
       description: "Get a list of batch-scores"
       operationId: getBatchScores
       parameters:
@@ -54,7 +56,7 @@ paths:
             $ref: "#/definitions/Error"
     post:
       tags:
-        - admin
+        - data-update
       description: "Add a new batch score"
       operationId: addBatchScore
       produces:
@@ -84,10 +86,10 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
-  /admin/batch-scores/{id}:
+  /batch-scores/{id}:
     put:
       tags:
-        - admin
+        - data-update
       description: "Update a batch score"
       operationId: updateBatchScore
       produces:
@@ -132,7 +134,7 @@ paths:
             $ref: "#/definitions/Error"
     delete:
       tags:
-        - admin
+        - data-update
       description: "Delete a batch score"
       operationId: deleteBatchScore
       produces:
@@ -166,10 +168,10 @@ paths:
 #------------------------------------------------------
 # Operation for Ranking
 #------------------------------------------------------
-  /admin/rankings:
+  /rankings:
     post:
       tags:
-        - admin
+        - data-update
       description: "Add a list of rankings"
       operationId: "addRankings"
       produces:
@@ -202,10 +204,10 @@ paths:
 #------------------------------------------------------
 # Opeations for enrollment-university
 #------------------------------------------------------
-  /admin/enrollment-universities:
+  /enrollment-universities:
     get:
       tags:
-        - admin
+        - data-update
       description: 'Get a list of enrollment records of universities'
       operationId: getEnronllmentUniversities
       produces:
@@ -246,7 +248,7 @@ paths:
             $ref: "#/definitions/Error"
     post:
       tags:
-        - admin
+        - data-update
       description: "Add a list of records of university enrollment"
       operationId: addEnrollmentUniversities
       produces:
@@ -276,10 +278,10 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
-  /admin/enrollment-universities/{id}:
+  /enrollment-universities/{id}:
     put:
       tags:
-        - admin
+        - data-update
       description: "Update an enrollment-university record"
       operationId: updateEnrollmentUniversity
       produces:
@@ -325,10 +327,10 @@ paths:
 #------------------------------------------------------
 # Operations for enrollment-majors
 #------------------------------------------------------
-  /admin/enrollment-majors:
+  /enrollment-majors:
     get:
       tags:
-        - admin
+        - data-update
       description: 'Get a list of enrollment records of majors'
       operationId: getEnronllmentMajors
       produces:
@@ -369,7 +371,7 @@ paths:
             $ref: "#/definitions/Error"
     post:
       tags:
-        - admin
+        - data-update
       description: "Add a list of records of major enrollment"
       operationId: addEnronllmentMajors
       produces:
@@ -399,10 +401,10 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
-  /admin/enrollment-majors/{id}:
+  /enrollment-majors/{id}:
     put:
       tags:
-        - admin
+        - data-update
       description: "Update an enrollment-major record"
       operationId: updateEnronllmentMajor
       produces:
