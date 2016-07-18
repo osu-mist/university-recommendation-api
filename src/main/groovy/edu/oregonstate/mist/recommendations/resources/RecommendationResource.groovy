@@ -4,7 +4,6 @@ import com.google.common.base.Optional
 import edu.oregonstate.mist.api.Resource
 import edu.oregonstate.mist.recommendations.Constants
 import edu.oregonstate.mist.recommendations.core.Recommendation
-import edu.oregonstate.mist.recommendations.core.University
 import edu.oregonstate.mist.recommendations.db.RecommendationDAO
 import org.hibernate.validator.constraints.NotEmpty
 
@@ -43,7 +42,7 @@ class RecommendationResource extends Resource {
 
         List<Recommendation> recommendationList
         studentType = translateStuType(studentType)
-        province = translateProvince(province)
+        province = translate(province)?: province
         if (by.toUpperCase() == Constants.BY_RANKING) {
             if (major.isPresent()) {
                 recommendationList = recommendationDAO.getMajorsByRank(
@@ -59,7 +58,10 @@ class RecommendationResource extends Resource {
         } else if (by.toUpperCase() == Constants.BY_SCORE_DIFF) {
             // TO-DO
             recommendationList = []
+        }else{
+
         }
+
         if (language.isPresent() && language.get().toUpperCase() == Constants.LANGUAGE.EN.name()) {
             recommendationList = translateResult (recommendationList)
         }
@@ -82,36 +84,28 @@ class RecommendationResource extends Resource {
     }
 
     /**
-     * Translate Province parameter into Chinese if needed
-     * @param province
-     * @return
-     */
-    private String translateProvince (String province)
-    {
-        String translate = Resource.properties.get(province)
-        if (translate != null && translate.length() > 0) {
-            translate
-        } else {
-            province
-        }
-    }
-
-    /**
-     *  Tranlate result into English
+     *  Translate result into English
      * @param recommendationList
      * @return recommendationList
      */
     private List<Recommendation> translateResult (List<Recommendation> recommendationList) {
 
-        for (int i = 0; i < recommendationList.size(); i ++ ){
-            String universityName = recommendationList[i].getUniversity().name
-            String translate =  Resource.properties.get(universityName)
-            if (translate != null){
-                University university = recommendationList[i].getUniversity()
-                university.setName(translate)
-                recommendationList[i].setUniversity(university)
-            }
+        recommendationList.each {
+            it.university.name = translate(it.university.name)?: it.university.name
         }
         recommendationList
+    }
+
+    /**
+     * Translate English to Chinese
+     * @param sourceText
+     * @return
+     */
+    private String translate(String sourceText) {
+        String translated = Resource.properties.get(sourceText.trim())
+        if (translated != null) {
+            translated = translated.trim()
+        }
+        translated
     }
 }
