@@ -88,7 +88,7 @@ class RecommendationResource extends Resource {
      * @param recommendationList
      * @return recommendationList
      */
-    private List<Recommendation> translateResult (List<Recommendation> recommendationList) {
+    private static List<Recommendation> translateResult (List<Recommendation> recommendationList) {
 
         recommendationList.each {
             it.university.name = translate(it.university.name)?: it.university.name
@@ -101,9 +101,9 @@ class RecommendationResource extends Resource {
      * @param sourceText
      * @return
      */
-    private String translate(String sourceText) {
+    private static String translate(String sourceText) {
         String translated = Resource.properties.get(sourceText.trim())
-        if (translated != null) {
+        if (translated) {
             translated = translated.trim()
         }
         translated
