@@ -2,6 +2,7 @@ package edu.oregonstate.mist.recommendations.resources
 
 import com.google.common.base.Optional
 import edu.oregonstate.mist.api.Resource
+import edu.oregonstate.mist.recommendations.Constants
 import edu.oregonstate.mist.recommendations.core.Recommendation
 import edu.oregonstate.mist.recommendations.core.University
 import edu.oregonstate.mist.recommendations.db.RecommendationDAO
@@ -43,7 +44,7 @@ class RecommendationResource extends Resource {
         List<Recommendation> recommendationList
         studentType = translateStuType(studentType)
         province = translateProvince(province)
-        if (by.toLowerCase() == "ranking") {
+        if (by.toUpperCase() == Constants.BY_RANKING) {
             if (major.isPresent()) {
                 recommendationList = recommendationDAO.getMajorsByRank(
                         province, studentType, batch, lowerLimit, upperLimit,
@@ -55,11 +56,11 @@ class RecommendationResource extends Resource {
                         year.orNull(), pageSize.or(10), pageNum.or(1) - 1)
 
             }
-        } else if (by.toLowerCase() == "score-diff") {
+        } else if (by.toUpperCase() == Constants.BY_SCORE_DIFF) {
             // TO-DO
             recommendationList = []
         }
-        if (language.isPresent() && language.get() == "EN") {
+        if (language.isPresent() && language.get().toUpperCase() == Constants.LANGUAGE.EN.name()) {
             recommendationList = translateResult (recommendationList)
         }
         recommendationList
@@ -72,10 +73,10 @@ class RecommendationResource extends Resource {
      * @return Student Type In Chinese
      */
     private String translateStuType (String stuType) {
-        if (stuType.toLowerCase() == "arts") {
-            stuType = "文科"
-        } else if (stuType.toLowerCase() == "science") {
-            stuType = "理科"
+        if (stuType.toUpperCase() == Constants.STUDENT_TYPE.ARTS.name()) {
+            stuType = Constants.ARTS_IN_CHINESE
+        } else if (stuType.toUpperCase() == Constants.STUDENT_TYPE.SCIENCE.name()) {
+            stuType = Constants.SCIENCE_IN_CHINESE
         }
         stuType
     }
