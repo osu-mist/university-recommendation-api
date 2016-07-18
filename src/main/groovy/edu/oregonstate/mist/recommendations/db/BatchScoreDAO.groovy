@@ -20,7 +20,7 @@ public interface BatchScoreDAO extends Closeable {
                           @Bind("studentType") String studentType,
                           @Bind("batch") Integer batch,
                           @Bind("year") Integer year,
-                          @Bind("BatchScore") Integer batchScore)
+                          @Bind("minScore") Integer minScore)
 
     @Override
     void close()
