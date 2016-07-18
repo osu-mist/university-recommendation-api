@@ -1,5 +1,6 @@
 package edu.oregonstate.mist.recommendations.resources
 
+import edu.oregonstate.mist.api.Resource
 import edu.oregonstate.mist.recommendations.core.Recommendation
 import edu.oregonstate.mist.recommendations.db.RecommendationDAO
 import io.dropwizard.testing.junit.ResourceTestRule
@@ -8,6 +9,8 @@ import org.junit.Before
 import org.junit.ClassRule
 import org.junit.Test
 
+import static junit.framework.TestCase.assertEquals
+import static junit.framework.TestCase.assertNull
 import static org.mockito.Mockito.*;
 
 /**
@@ -34,6 +37,23 @@ public class RecommendationResourceTest {
         //         .queryParam("batch", 1).queryParam("province","fujian")
         //         .queryParam("student_type","science").queryParam("lower_limit", 0)
         //         .queryParam("upper_limit",3000).request().get()
+    }
+
+    @Test
+    public void TranslationTest() throws Exception {
+        Resource.loadProperties("provinces.properties")
+        Resource.loadProperties('universities.properties')
+
+        assertNull(RecommendationResource.translate(""))
+        assertNull(RecommendationResource.translate(""))
+
+        assertNull(RecommendationResource.translate("zhejiang"))
+        assertNull(RecommendationResource.translate("工商大学"))
+
+        assertEquals('福建', RecommendationResource.translate("fujian"))
+        assertEquals('Tsinghua University', RecommendationResource.translate("清华大学"))
+        assertEquals('South China University of Technology', RecommendationResource.translate("南方科技大学"))
+
     }
 
     @After
