@@ -11,7 +11,7 @@ import java.sql.SQLException
 /**
  * BatchScoreMapper
  */
-class BatchScoreMapper implements ResultSetMapper<BatchScore>{
+class BatchScoreMapper implements ResultSetMapper<BatchScore> {
 
     @Override
     BatchScore map(int index, ResultSet r, StatementContext ctx) throws SQLException {
