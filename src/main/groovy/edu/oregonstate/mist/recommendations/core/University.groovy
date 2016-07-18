@@ -5,6 +5,6 @@ package edu.oregonstate.mist.recommendations.core
  */
 class University {
     String name
-    Integer is985
-    Integer is211
+    boolean is985
+    boolean is211
 }
