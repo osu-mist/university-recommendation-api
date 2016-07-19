@@ -36,6 +36,17 @@ public interface BatchScoreDAO extends Closeable {
                           @Bind("year") Integer year,
                           @Bind("minScore") Integer minScore)
 
+    @SqlUpdate("""
+                UPDATE BATCH_SCORE
+                  SET YEAR = 2015 , MIN_SCORE = 456,
+                      STUDENT_POOL_ID = (SELECT ID FROM STUDENT_POOL
+                                          WHERE STUDENT_POOL.BATCH = 3 AND
+                                               STUDENT_POOL.PROVINCE = '福建' AND
+                                               STUDENT_POOL.STU_TYPE = '文科')
+                  WHERE ID = 1
+                """)
+
+
     @Override
     void close()
 }
