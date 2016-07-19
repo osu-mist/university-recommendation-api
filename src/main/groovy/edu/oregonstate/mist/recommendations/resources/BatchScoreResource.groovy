@@ -37,9 +37,6 @@ class BatchScoreResource extends Resource {
     public Response postBatchScore(@Auth AuthenticatedUser authenticatedUser, @Valid BatchScore batchScore) {
         try {
             StudentPool stuPool = batchScore.studentPool
-            STUDENT_POOL_DAO.insertStudentPoolIfNotExisted (stuPool.province,
-                                                            stuPool.studentType,
-                                                            stuPool.batch)
             int batchScoreId = BATCH_SCORE_DAO.getBatchScoreID (stuPool.province,
                                                                 stuPool.studentType,
                                                                 stuPool.batch,
@@ -49,6 +46,9 @@ class BatchScoreResource extends Resource {
                         'Record existed! Please use PUT to update it, Record Id: %1$d',batchScoreId)).build()
 
             } else {
+                    STUDENT_POOL_DAO.insertStudentPoolIfNotExisted (stuPool.province,
+                            stuPool.studentType,
+                            stuPool.batch)
                     BATCH_SCORE_DAO.insertBatchScore (stuPool.province,
                                       stuPool.studentType,
                                       stuPool.batch,
