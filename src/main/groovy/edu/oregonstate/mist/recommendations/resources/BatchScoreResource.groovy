@@ -42,10 +42,9 @@ class BatchScoreResource extends Resource {
         try {
             StudentPool stuPool = batchScore.studentPool
 
-            int batchScoreId = BATCH_SCORE_DAO.getBatchScoreID (stuPool.province,
-                                                                stuPool.studentType,
-                                                                stuPool.batch,
-                                                                batchScore.year) ?: Constants.NOT_FOUND
+            int batchScoreId = BATCH_SCORE_DAO.getBatchScoreID (
+                    stuPool.province, stuPool.studentType, stuPool.batch, batchScore.year)?: Constants.NOT_FOUND
+
             if (batchScoreId != Constants.NOT_FOUND) {
                 return badRequest(String.format(
                         'Record exists! Please refer to: /batch-scores/%1$d,',batchScoreId))
