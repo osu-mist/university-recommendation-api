@@ -1,8 +1,10 @@
 package edu.oregonstate.mist.recommendations
 
+import com.codahale.metrics.MetricRegistry
 import edu.oregonstate.mist.api.AuthenticatedUser
 import edu.oregonstate.mist.api.BasicAuthenticator
 import edu.oregonstate.mist.api.Resource
+import edu.oregonstate.mist.recommendations.core.Recommendation
 import edu.oregonstate.mist.recommendations.db.RecommendationDAO
 import edu.oregonstate.mist.recommendations.db.StudentPoolDAO
 import edu.oregonstate.mist.recommendations.health.BaseHealthCheck
@@ -42,7 +44,6 @@ class RecommendationApplication extends Application<RecommendationConfiguration>
                                 new BasicAuthenticator(configuration.getCredentialsList()),
                                 'RecommendationApplication',
                                 AuthenticatedUser.class)))
-
         //health check
         environment.healthChecks()register("basic health check", new BaseHealthCheck((STUDENT_POOL_DAO)))
     }

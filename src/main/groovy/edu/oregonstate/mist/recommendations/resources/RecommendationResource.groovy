@@ -1,11 +1,13 @@
 package edu.oregonstate.mist.recommendations.resources
 
+import com.codahale.metrics.annotation.ExceptionMetered
+import com.codahale.metrics.annotation.Metered
+import com.codahale.metrics.annotation.Timed
 import com.google.common.base.Optional
 import edu.oregonstate.mist.api.Resource
 import edu.oregonstate.mist.recommendations.Constants
 import edu.oregonstate.mist.recommendations.core.Recommendation
 import edu.oregonstate.mist.recommendations.db.RecommendationDAO
-import org.hibernate.validator.constraints.NotEmpty
 
 import javax.ws.rs.GET
 import javax.ws.rs.Path
@@ -27,6 +29,8 @@ class RecommendationResource extends Resource {
     }
 
     @GET
+    @Timed(name = "timedGetRecommendations")
+    @Metered(name = "meterGetRecommendations")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getRecommendations(
             @QueryParam('by') String by,
@@ -117,7 +121,7 @@ class RecommendationResource extends Resource {
             // TO-DO
             recommendationList = []
         } else {
-            throw new Exception("Parameter by is not matched!")
+            throw new Exception("Parameter 'by' is not matched!")
         }
 
         if (language.isPresent() && language.get().toUpperCase() == Constants.LANGUAGE.EN.name()) {
