@@ -457,7 +457,7 @@ definitions:
       province:
         type: string
         description: "Province that the student took the College Entrance Examination"
-      stu_type:
+      studentType:
         type: string
         description: "Type of the student-[arts, sciences]"
       batch:
@@ -475,12 +475,12 @@ definitions:
         type: integer
         format: int32
         description: "Unique identifier for the batchScore, it will be ignored if it's a POST request"
-      student_pool:
+      studentPool:
         $ref: "#/definitions/StudentPool"
       year:
         type: integer
         format: int32
-      min_score:
+      minScore:
         type: integer
         format: int32"
         description: "Minimum score of the batch"
@@ -496,7 +496,7 @@ definitions:
   Ranking:
     type: object
     properties:
-      student_pool:
+      studentPool:
         $ref: "#/definitions/StudentPool"
       year:
         type: integer
@@ -505,7 +505,7 @@ definitions:
         type: integer
         format: int32
         description: "Score of the examination"
-      stu_count:
+      stuCount:
         type: integer
         format: int32
         description: "Number of students received the score"
@@ -533,13 +533,13 @@ definitions:
       university:
         type: string
         description: "Name of the university"
-      student_pool:
+      studentPool:
         $ref: "#/definitions/StudentPool"
-      score_avg:
+      scoreAvg:
         type: integer
         format: int32
         description: "Average score for the university"
-      stu_count:
+      stuCount:
         type: integer
         format: int32
         description: "Number of students enrolled in the university"
@@ -562,11 +562,11 @@ definitions:
       university:
         type: string
         description: "Name of the university"
-      student_pool:
+      studentPool:
         $ref: "#/definitions/StudentPool"
       major:
         type: string
-      score_avg:
+      scoreAvg:
         type: integer
         format: int32
         description: "Average score for the major"
