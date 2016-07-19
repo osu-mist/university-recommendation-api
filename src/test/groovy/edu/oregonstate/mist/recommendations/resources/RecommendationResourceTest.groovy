@@ -1,7 +1,6 @@
 package edu.oregonstate.mist.recommendations.resources
 
 import edu.oregonstate.mist.api.Resource
-import edu.oregonstate.mist.recommendations.core.Recommendation
 import edu.oregonstate.mist.recommendations.db.RecommendationDAO
 import io.dropwizard.testing.junit.ResourceTestRule
 import org.junit.After
@@ -11,20 +10,20 @@ import org.junit.Test
 
 import static junit.framework.TestCase.assertEquals
 import static junit.framework.TestCase.assertNull
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.*
 
 /**
  * RecommendationResource Test
  */
 public class RecommendationResourceTest {
 
-    private static final RecommendationDAO RECOMMENDATION_DAO = mock(RecommendationDAO.class);
-    private final List<Recommendation> recommendationList;
+    private static final RecommendationDAO RECOMMENDATION_DAO = mock(RecommendationDAO.class)
+//    private final List<Recommendation> recommendationList
 
     @ClassRule
     public static final ResourceTestRule resources = ResourceTestRule.builder()
             .addResource(new RecommendationResource(RECOMMENDATION_DAO))
-            .build();
+            .build()
 
     @Before
     public void setup () {
@@ -40,7 +39,7 @@ public class RecommendationResourceTest {
     }
 
     @Test
-    public void TranslationTest() throws Exception {
+    public void translationTest() throws Exception {
         Resource.loadProperties("provinces.properties")
         Resource.loadProperties('universities.properties')
 
@@ -57,10 +56,10 @@ public class RecommendationResourceTest {
     }
 
     @After
-    public void tearDown (){
+    public void tearDown () {
         // we have to reset the mock after each test because of the
         // @ClassRule, or use a @Rule as mentioned below.
-        reset(RECOMMENDATION_DAO);
+        reset(RECOMMENDATION_DAO)
     }
 
 }
