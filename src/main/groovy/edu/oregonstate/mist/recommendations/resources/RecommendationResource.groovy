@@ -1,6 +1,5 @@
 package edu.oregonstate.mist.recommendations.resources
 
-import com.codahale.metrics.annotation.ExceptionMetered
 import com.codahale.metrics.annotation.Metered
 import com.codahale.metrics.annotation.Timed
 import com.google.common.base.Optional
@@ -8,6 +7,8 @@ import edu.oregonstate.mist.api.Resource
 import edu.oregonstate.mist.recommendations.Constants
 import edu.oregonstate.mist.recommendations.core.Recommendation
 import edu.oregonstate.mist.recommendations.db.RecommendationDAO
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 import javax.ws.rs.GET
 import javax.ws.rs.Path
@@ -23,6 +24,7 @@ import javax.ws.rs.core.Response
 @Produces(MediaType.APPLICATION_JSON)
 class RecommendationResource extends Resource {
     private final RecommendationDAO recommendationDAO
+    private static final Logger LOGGER = LoggerFactory.getLogger(RecommendationResource.class)
 
     public RecommendationResource(RecommendationDAO recommendationDAO) {
         this.recommendationDAO = recommendationDAO
@@ -65,6 +67,7 @@ class RecommendationResource extends Resource {
                                     lowerLimit, upperLimit, year,
                                     major, language, pageSize, pageNum)
         } catch (Exception e) {
+            LOGGER.error("Exception when calling: getRecommendations", e)
             return internalServerError(e.message).build()
         }
 
