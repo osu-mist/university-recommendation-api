@@ -43,12 +43,13 @@ class BatchScoreResource extends Resource {
                                                                 batchScore.year) ?: Constants.NOT_FOUND
             if (batchScoreId != Constants.NOT_FOUND) {
                 return badRequest(String.format(
-                        'Record existed! Please use PUT to update it, Record Id: %1$d',batchScoreId)).build()
+                        'Record existed! Please use PUT to update it, Record Id: %1$d',batchScoreId))
+                        .build()
 
             } else {
                     STUDENT_POOL_DAO.insertStudentPoolIfNotExisted (stuPool.province,
-                            stuPool.studentType,
-                            stuPool.batch)
+                                                                    stuPool.studentType,
+                                                                    stuPool.batch)
                     BATCH_SCORE_DAO.insertBatchScore (stuPool.province,
                                       stuPool.studentType,
                                       stuPool.batch,
