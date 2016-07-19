@@ -120,7 +120,7 @@ class RecommendationResource extends Resource {
                         year.orNull(), pageSize.or(10), pageNum.or(1) - 1)
 
             }
-        } else if (by.toUpperCase () == Constants.BY_SCORE_DIFF) {
+        } else if (by.toUpperCase() == Constants.BY_SCORE_DIFF) {
             // TO-DO
             recommendationList = []
         } else {
