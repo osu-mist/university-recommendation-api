@@ -70,12 +70,16 @@ class BatchScoreResource extends Resource {
     }
 
     @PUT
-    @Path()
+    @Path('{\\d+}')
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response putBatchScore(@Auth AuthenticatedUser authenticatedUser,
-                                  @PathParam id,
+                                  @PathParam("id") Integer id,
                                   @Valid BatchScore batchScore) {
+        try {
 
+        } catch (Exception e) {
+            return internalServerError(e.message).build()
+        }
     }
 }
