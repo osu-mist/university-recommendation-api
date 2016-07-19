@@ -45,7 +45,12 @@ public interface BatchScoreDAO extends Closeable {
                                                STUDENT_POOL.STU_TYPE = '文科')
                   WHERE ID = 1
                 """)
-
+    void updateBatchScore(@Bind("province") String province,
+                          @Bind("studentType") String studentType,
+                          @Bind("batch") Integer batch,
+                          @Bind("year") Integer year,
+                          @Bind("minScore") Integer minScore,
+                          @Bind("id") Integer id)
 
     @Override
     void close()
