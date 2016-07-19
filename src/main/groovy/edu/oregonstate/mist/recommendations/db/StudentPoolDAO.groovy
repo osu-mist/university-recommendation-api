@@ -1,6 +1,7 @@
 package edu.oregonstate.mist.recommendations.db
 
 import org.skife.jdbi.v2.sqlobject.Bind
+import org.skife.jdbi.v2.sqlobject.GetGeneratedKeys
 import org.skife.jdbi.v2.sqlobject.SqlQuery
 import org.skife.jdbi.v2.sqlobject.SqlUpdate
 
@@ -31,10 +32,11 @@ public interface StudentPoolDAO extends Closeable {
                   WHERE PROVINCE = '福建' AND BATCH = 1 AND STU_TYPE = '理科'
                 )
                """)
-    void insertStudentPoolIfNotExisted(@Bind("province") String province,
-                                       @Bind("studentType") String studentType,
-                                       @Bind("batch") Integer batch)
+    @GetGeneratedKeys
+    Integer insertStudentPoolIfNotExisted (@Bind("province") String province,
+                                           @Bind("studentType") String studentType,
+                                           @Bind("batch") Integer batch)
 
     @Override
-    void close()
+    void close ()
 }
