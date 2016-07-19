@@ -70,7 +70,7 @@ class RecommendationResource extends Resource {
 
         if (recommendationList && recommendationList.size () > 0) {
             return ok(recommendationList).build()
-        }else{
+        } else {
             return notFound().build()
         }
 

@@ -22,4 +22,6 @@ class Constants {
         CN
     }
 
+    public static final Integer NOT_FOUND = -1
+
 }
