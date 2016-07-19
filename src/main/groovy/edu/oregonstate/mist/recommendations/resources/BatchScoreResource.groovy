@@ -37,6 +37,12 @@ class BatchScoreResource extends Resource {
     public Response postBatchScore(@Auth AuthenticatedUser authenticatedUser, @Valid BatchScore batchScore) {
         try {
             StudentPool stuPool = batchScore.studentPool
+            if ( !(batchScore.year && batchScore.minScore && batchScore.studentPool
+                    && batchScore.studentPool.batch && batchScore.studentPool.province
+                    && batchScore.studentPool.studentType)) {
+                return badRequest("All the fields except id of the BatchScore can't be null!").build()
+            }
+
             int batchScoreId = BATCH_SCORE_DAO.getBatchScoreID (stuPool.province,
                                                                 stuPool.studentType,
                                                                 stuPool.batch,
