@@ -1,7 +1,5 @@
 package edu.oregonstate.mist.recommendations
 
-import org.omg.CORBA.PUBLIC_MEMBER
-
 /**
  *  Recommendation API Constants
  */

@@ -19,6 +19,9 @@ import javax.ws.rs.Produces
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
 /**
  * BatchScore Resource
  */
@@ -27,6 +30,7 @@ import javax.ws.rs.core.Response
 class BatchScoreResource extends Resource {
     private final BatchScoreDAO BATCH_SCORE_DAO
     private final StudentPoolDAO STUDENT_POOL_DAO
+    private static final Logger LOGGER = LoggerFactory.getLogger(BatchScoreResource.class)
 
     public BatchScoreResource (BatchScoreDAO batchScoreDAO, StudentPoolDAO studentPoolDAO) {
         this.BATCH_SCORE_DAO = batchScoreDAO
@@ -39,13 +43,13 @@ class BatchScoreResource extends Resource {
     public Response postBatchScore(@Auth AuthenticatedUser authenticatedUser, @Valid BatchScore batchScore) {
         try {
             StudentPool stuPool = batchScore.studentPool
-            int batchScoreId = BATCH_SCORE_DAO.getBatchScoreID (stuPool.province,
-                                                                stuPool.studentType,
-                                                                stuPool.batch,
-                                                                batchScore.year) ?: Constants.NOT_FOUND
+
+            int batchScoreId = BATCH_SCORE_DAO.getBatchScoreID (
+                    stuPool.province, stuPool.studentType, stuPool.batch, batchScore.year)?: Constants.NOT_FOUND
+
             if (batchScoreId != Constants.NOT_FOUND) {
                 return badRequest(String.format(
-                        'Record existed! Please use PUT to update it, Record Id: %1$d',batchScoreId))
+                        'Record exists! Please refer to: /batch-scores/%1$d,',batchScoreId))
                         .build()
 
             } else {
@@ -65,6 +69,7 @@ class BatchScoreResource extends Resource {
                     return ok(batchScore).build()
             }
         } catch (Exception e) {
+            LOGGER.error("Exception while calling: postBatchScore", e)
             return internalServerError(e.message).build()
         }
     }
