@@ -44,7 +44,6 @@ public class RecommendationResourceTest {
         Resource.loadProperties('universities.properties')
 
         assertNull(RecommendationResource.translate(""))
-        assertNull(RecommendationResource.translate(""))
 
         assertNull(RecommendationResource.translate("zhejiang"))
         assertNull(RecommendationResource.translate("工商大学"))

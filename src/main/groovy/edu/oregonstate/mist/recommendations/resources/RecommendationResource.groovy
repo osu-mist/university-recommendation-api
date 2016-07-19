@@ -1,6 +1,5 @@
 package edu.oregonstate.mist.recommendations.resources
 
-import com.codahale.metrics.annotation.ExceptionMetered
 import com.codahale.metrics.annotation.Metered
 import com.codahale.metrics.annotation.Timed
 import com.google.common.base.Optional
