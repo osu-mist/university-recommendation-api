@@ -1,0 +1,12 @@
+https://localhost:8080/api/v0/recommendations?
+
+?by=not&student_type=science&&province=fujian&&batch=1&lower_limit=0&upper_limit=8000
+
+?by=ranking&student_type=science&&province=fujian&&batch=1&lower_limit=0&upper_limit=8000
+
+?by=ranking&student_type=science&&province=fujian&&batch=1&lower_limit=0&upper_limit=1000&language=en
+
+?by=ranking&student_type=science&&province=fujian&&batch=1&lower_limit=0&upper_limit=1000&language=en
+
+?by=ranking&student_type=science&&province=fujian&&batch=1&lower_limit=0&upper_limit=1000&language=en&year=2015&major=计算机
+
