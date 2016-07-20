@@ -12,8 +12,6 @@ configuration.yaml
 *.iws
 .idea/
 bin/
-lib/
-out/
 
 # Mac OS X
 .DS_Store
