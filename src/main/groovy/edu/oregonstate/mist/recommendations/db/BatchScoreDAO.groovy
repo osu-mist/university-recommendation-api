@@ -43,7 +43,7 @@ public interface BatchScoreDAO extends Closeable {
                                           WHERE STUDENT_POOL.BATCH = 3 AND
                                                STUDENT_POOL.PROVINCE = '福建' AND
                                                STUDENT_POOL.STU_TYPE = '文科')
-                  WHERE ID = 1
+                  WHERE ID = 28
                 """)
     void updateBatchScore(@Bind("province") String province,
                           @Bind("studentType") String studentType,

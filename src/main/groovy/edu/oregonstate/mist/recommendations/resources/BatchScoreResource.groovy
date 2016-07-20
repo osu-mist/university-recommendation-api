@@ -75,15 +75,21 @@ class BatchScoreResource extends Resource {
     }
 
     @PUT
-    @Path('{\\d+}')
+    @Path('{id}')
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response putBatchScore(@Auth AuthenticatedUser authenticatedUser,
                                   @PathParam("id") Integer id,
                                   @Valid BatchScore batchScore) {
         try {
-
+            BATCH_SCORE_DAO.updateBatchScore (batchScore.studentPool.province,
+                                              batchScore.studentPool.studentType,
+                                              batchScore.studentPool.batch,
+                                              batchScore.year,
+                                              batchScore.minScore,
+                                              id)
         } catch (Exception e) {
+            LOGGER.error("Exception while calling: putBatchScore", e)
             return internalServerError(e.message).build()
         }
     }
