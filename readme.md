@@ -4,7 +4,7 @@
 
 The College Entrance Examination is a standardized test  which is used for college admissions in China. It's similar as the SAT in the US but unlike SAT, it's the only criterial for college admissions. The examination contents vary from province to province, and the grade report includes scores for each subject and the rank of the total score in the province. After all the students received their grades, they are divided into three batches based on their total scores. Each student can apply for 6 universities and 6 majors for each university, but the application starting date and applicable universities are different for each batch of the students.
 
-The goal of the API is to provide accessible endpoints for students to get recommendations based on their score or score rank. And also easily to update the enrollment data each year.
+The goal of the API is to provide accessible endpoints for students to get recommendations based on their score or score rank and easily to update the enrollment data each year.
 
 # End Points Quick Look
 
