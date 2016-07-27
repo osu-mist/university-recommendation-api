@@ -1,7 +1,5 @@
 package edu.oregonstate.mist.recommendations
 
-import org.omg.CORBA.PUBLIC_MEMBER
-
 /**
  *  Recommendation API Constants
  */
@@ -21,5 +19,7 @@ class Constants {
         EN,
         CN
     }
+
+    public static final Integer NOT_FOUND = -1
 
 }

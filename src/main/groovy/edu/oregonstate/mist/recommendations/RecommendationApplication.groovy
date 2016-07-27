@@ -5,9 +5,11 @@ import edu.oregonstate.mist.api.AuthenticatedUser
 import edu.oregonstate.mist.api.BasicAuthenticator
 import edu.oregonstate.mist.api.Resource
 import edu.oregonstate.mist.recommendations.core.Recommendation
+import edu.oregonstate.mist.recommendations.db.BatchScoreDAO
 import edu.oregonstate.mist.recommendations.db.RecommendationDAO
 import edu.oregonstate.mist.recommendations.db.StudentPoolDAO
 import edu.oregonstate.mist.recommendations.health.BaseHealthCheck
+import edu.oregonstate.mist.recommendations.resources.BatchScoreResource
 import edu.oregonstate.mist.recommendations.resources.RecommendationResource
 import io.dropwizard.Application
 import io.dropwizard.auth.AuthFactory
@@ -35,8 +37,10 @@ class RecommendationApplication extends Application<RecommendationConfiguration>
 
         final RecommendationDAO RECOMMENDATION_DAO = JDBI.onDemand(RecommendationDAO.class)
         final StudentPoolDAO STUDENT_POOL_DAO = JDBI.onDemand(StudentPoolDAO.class)
+        final BatchScoreDAO BATCH_SCORE_DAO = JDBI.onDemand(BatchScoreDAO.class)
 
         environment.jersey().register(new RecommendationResource(RECOMMENDATION_DAO))
+        environment.jersey().register(new BatchScoreResource(BATCH_SCORE_DAO, STUDENT_POOL_DAO))
 
         environment.jersey().register(
                 AuthFactory.binder(

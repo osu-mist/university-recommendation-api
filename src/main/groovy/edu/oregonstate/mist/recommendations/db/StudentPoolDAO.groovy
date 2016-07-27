@@ -23,18 +23,19 @@ public interface StudentPoolDAO extends Closeable {
 
     @SqlUpdate("""
                 INSERT INTO STUDENT_POOL (ID, PROVINCE, BATCH, STU_TYPE)
-                SELECT SEQ_STU_POOL.NEXTVAL, '福建', 1, '理科'
-                FROM DUAL
-                WHERE NOT EXISTS (
-                  SELECT *
-                  FROM STUDENT_POOL
-                  WHERE PROVINCE = '福建' AND BATCH = 1 AND STU_TYPE = '理科'
-                )
+                    SELECT SEQ_STU_POOL.NEXTVAL, :province , :batch, :studentType
+                    FROM DUAL
+                    WHERE NOT EXISTS (
+                      SELECT * FROM STUDENT_POOL
+                      WHERE PROVINCE = :province AND
+                            BATCH = :batch AND
+                            STU_TYPE = :studentType
+                    )
                """)
-    void insertStudentPoolIfNotExisted(@Bind("province") String province,
-                                       @Bind("studentType") String studentType,
-                                       @Bind("batch") Integer batch)
+    void insertStudentPoolIfNotExisted (@Bind("province") String province,
+                                        @Bind("studentType") String studentType,
+                                        @Bind("batch") Integer batch)
 
     @Override
-    void close()
+    void close ()
 }
