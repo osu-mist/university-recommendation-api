@@ -23,8 +23,9 @@ The goal of the API is to provide accessible endpoints for students to get recom
 
 Get a list of recommendations based on a rank of a student's score
 
-```json
+Sample request:
 
+```json
 > GET api/v0/recommendations?by=ranking&student_type=science&&province=fujian&&batch=1&lower_limit=0&upper_limit=1000&language=en
 
 [
@@ -63,6 +64,7 @@ Get a list of recommendations based on a rank of a student's score
 ```
 
 ## POST
+Post a batch score record.
 
 Sample request:
 
@@ -88,4 +90,19 @@ Sample response:
   "year": 2015,
   "minScore": 400
 }
+```
+
+
+## DELETE
+Delete a batch score by Id.
+
+Sample request:
+
+```
+> DELETE /api/v0/batch-scores/39 HTTP/1.1
+> set header: Authorization:Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+
+HTTP/1.1 200 OK
+Content-Length: 0
+Date: Thu, 28 Jul 2016 18:45:31 GMT
 ```

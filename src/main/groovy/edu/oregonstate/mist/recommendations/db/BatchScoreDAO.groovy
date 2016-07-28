@@ -36,6 +36,11 @@ public interface BatchScoreDAO extends Closeable {
                           @Bind("year") Integer year,
                           @Bind("minScore") Integer minScore)
 
+    @SqlUpdate("""
+               DELETE BATCH_SCORE WHERE ID = :id
+               """)
+    void deleteBatchScoreById(@Bind("id") Integer id)
+
     @Override
     void close()
 }
