@@ -113,11 +113,11 @@ definitions:
       year:
         type: integer
         format: int32
-      stu_count:
+      stuCount:
         type: integer
         format: int32
         description: "Number of students enrolled in the university in the given year"
-      score_avg:
+      scoreAvg:
         type: integer
         format: int32
         description: "Average score for the university"
@@ -125,11 +125,11 @@ definitions:
         type: integer
         format: int32
         description: "Ranking of the score in the province"
-      score_batch:
+      scoreBatch:
         type: integer
         format: int32
         description: "Minimum score of the batch that the students is in"
-      score_diff:
+      scoreDiff:
         type: integer
         format: int32
         description: "Differences between score_avg and score_batch"
@@ -149,10 +149,10 @@ definitions:
       name:
         type: string
         description: "Name of the university"
-      is_985:
+      is985:
         type: boolean
         description: "Is the university in the 985 program"
-      is_211:
+      is211:
         type: boolean
         description: "Is the university in the 211 program"
 

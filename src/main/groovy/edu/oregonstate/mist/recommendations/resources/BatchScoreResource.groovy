@@ -11,6 +11,7 @@ import io.dropwizard.auth.Auth
 
 import javax.validation.Valid
 import javax.ws.rs.Consumes
+import javax.ws.rs.DELETE
 import javax.ws.rs.POST
 import javax.ws.rs.PUT
 import javax.ws.rs.Path
@@ -44,8 +45,9 @@ class BatchScoreResource extends Resource {
         try {
             StudentPool stuPool = batchScore.studentPool
 
-            int batchScoreId = BATCH_SCORE_DAO.getBatchScoreID (
-                    stuPool.province, stuPool.studentType, stuPool.batch, batchScore.year)?: Constants.NOT_FOUND
+            def batchScoreID = BATCH_SCORE_DAO.getBatchScoreID(
+                    stuPool.province, stuPool.studentType, stuPool.batch, batchScore.year)
+            int batchScoreId = batchScoreID ?: Constants.NOT_FOUND
 
             if (batchScoreId != Constants.NOT_FOUND) {
                 return badRequest(String.format(
@@ -93,4 +95,18 @@ class BatchScoreResource extends Resource {
             return internalServerError(e.message).build()
         }
     }
+
+    @DELETE
+    @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteBatchScoreById(@Auth AuthenticatedUser authenticatedUser, @PathParam("id") Integer id) {
+        try {
+            BATCH_SCORE_DAO.deleteBatchScoreById(id)
+            return  ok().build()
+        } catch (Exception e) {
+            LOGGER.error("Exception while calling: deleteBatchScoreById", e)
+            return internalServerError(e.message).build()
+        }
+    }
+
 }
