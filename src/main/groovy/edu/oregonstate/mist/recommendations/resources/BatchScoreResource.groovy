@@ -41,7 +41,8 @@ class BatchScoreResource extends Resource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response postBatchScore(@Auth AuthenticatedUser authenticatedUser, @Valid BatchScore batchScore) {
+    public Response postBatchScore(@Auth AuthenticatedUser authenticatedUser,
+                                   @Valid BatchScore batchScore) {
         try {
             StudentPool stuPool = batchScore.studentPool
 
@@ -84,12 +85,25 @@ class BatchScoreResource extends Resource {
                                   @PathParam("id") Integer id,
                                   @Valid BatchScore batchScore) {
         try {
-            BATCH_SCORE_DAO.updateBatchScore (batchScore.studentPool.province,
-                                              batchScore.studentPool.studentType,
-                                              batchScore.studentPool.batch,
-                                              batchScore.year,
-                                              batchScore.minScore,
-                                              id)
+            StudentPool stuPool = batchScore.studentPool
+            boolean isExisted = BATCH_SCORE_DAO.countBatchScoreById(id) > 0
+            if (isExisted) {
+                STUDENT_POOL_DAO.insertStudentPoolIfNotExisted (stuPool.province,
+                                                                stuPool.studentType,
+                                                                stuPool.batch)
+                BATCH_SCORE_DAO.updateBatchScoreById(batchScore.studentPool.province,
+                                                     batchScore.studentPool.studentType,
+                                                     batchScore.studentPool.batch,
+                                                     batchScore.year,
+                                                     batchScore.minScore,
+                                                     id)
+                batchScore.id = id
+                return ok(batchScore).build()
+            } else {
+                badRequest(String.format('Record not found! Invalid batchScore Id: %1$d', id))
+                .build()
+            }
+
         } catch (Exception e) {
             LOGGER.error("Exception while calling: putBatchScore", e)
             return internalServerError(e.message).build()
@@ -99,7 +113,8 @@ class BatchScoreResource extends Resource {
     @DELETE
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteBatchScoreById(@Auth AuthenticatedUser authenticatedUser, @PathParam("id") Integer id) {
+    public Response deleteBatchScoreById(@Auth AuthenticatedUser authenticatedUser,
+                                         @PathParam("id") Integer id) {
         try {
             BATCH_SCORE_DAO.deleteBatchScoreById(id)
             return  ok().build()

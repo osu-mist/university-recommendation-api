@@ -45,17 +45,22 @@ public interface BatchScoreDAO extends Closeable {
                                                 STUDENT_POOL.STU_TYPE = :studentType)
                   WHERE ID = :id
                 """)
-    void updateBatchScore(@Bind("province") String province,
-                          @Bind("studentType") String studentType,
-                          @Bind("batch") Integer batch,
-                          @Bind("year") Integer year,
-                          @Bind("minScore") Integer minScore,
-                          @Bind("id") Integer id)
+    void updateBatchScoreById(@Bind("province") String province,
+                              @Bind("studentType") String studentType,
+                              @Bind("batch") Integer batch,
+                              @Bind("year") Integer year,
+                              @Bind("minScore") Integer minScore,
+                              @Bind("id") Integer id)
 
     @SqlUpdate("""
                DELETE BATCH_SCORE WHERE ID = :id
                """)
     void deleteBatchScoreById(@Bind("id") Integer id)
+
+    @SqlQuery("""
+            SELECT COUNT(*) FROM BATCH_SCORE WHERE ID = :id
+              """)
+    Integer countBatchScoreById(@Bind("id") Integer id)
 
 
     @Override
