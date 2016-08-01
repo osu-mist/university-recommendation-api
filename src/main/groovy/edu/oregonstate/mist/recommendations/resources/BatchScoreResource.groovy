@@ -86,8 +86,8 @@ class BatchScoreResource extends Resource {
                                   @Valid BatchScore batchScore) {
         try {
             StudentPool stuPool = batchScore.studentPool
-            boolean isExisted = BATCH_SCORE_DAO.countBatchScoreById(id) > 0
-            if (isExisted) {
+            boolean foundInDB = BATCH_SCORE_DAO.countBatchScoreById(id) > 0
+            if (foundInDB) {
                 STUDENT_POOL_DAO.insertStudentPoolIfNotExisted (stuPool.province,
                                                                 stuPool.studentType,
                                                                 stuPool.batch)
