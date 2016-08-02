@@ -106,3 +106,30 @@ HTTP/1.1 200 OK
 Content-Length: 0
 Date: Thu, 28 Jul 2016 18:45:31 GMT
 ```
+
+## PUT
+Update a batch score by Id.
+
+Sample request:
+
+```json
+> PUT /api/v0/batch-scores/28 HTTP/1.1
+> set header: Authorization:Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+>             Content-Type: Application/json
+>       data: {"id": null,
+>              "studentPool":{ "province": "福建", "studentType": "文科", "batch": 2},
+>              "year": 2015, "minScore": 400}
+
+Response:
+
+{
+  "id": 28,
+  "studentPool": {
+    "province": "福建",
+    "studentType": "文科",
+    "batch": 2
+  },
+  "year": 2015,
+  "minScore": 400
+}
+```
