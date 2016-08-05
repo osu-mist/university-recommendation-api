@@ -13,6 +13,7 @@ import javax.validation.Valid
 import javax.ws.rs.Consumes
 import javax.ws.rs.DELETE
 import javax.ws.rs.POST
+import javax.ws.rs.PUT
 import javax.ws.rs.Path
 import javax.ws.rs.PathParam
 import javax.ws.rs.Produces
@@ -40,7 +41,8 @@ class BatchScoreResource extends Resource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response postBatchScore(@Auth AuthenticatedUser authenticatedUser, @Valid BatchScore batchScore) {
+    public Response postBatchScore(@Auth AuthenticatedUser authenticatedUser,
+                                   @Valid BatchScore batchScore) {
         try {
             StudentPool stuPool = batchScore.studentPool
 
@@ -75,10 +77,44 @@ class BatchScoreResource extends Resource {
         }
     }
 
+    @PUT
+    @Path('{id}')
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response putBatchScore(@Auth AuthenticatedUser authenticatedUser,
+                                  @PathParam("id") Integer id,
+                                  @Valid BatchScore batchScore) {
+        try {
+            StudentPool stuPool = batchScore.studentPool
+            boolean foundInDB = BATCH_SCORE_DAO.countBatchScoreById(id) > 0
+            if (foundInDB) {
+                STUDENT_POOL_DAO.insertStudentPoolIfNotExisted (stuPool.province,
+                                                                stuPool.studentType,
+                                                                stuPool.batch)
+                BATCH_SCORE_DAO.updateBatchScoreById(batchScore.studentPool.province,
+                                                     batchScore.studentPool.studentType,
+                                                     batchScore.studentPool.batch,
+                                                     batchScore.year,
+                                                     batchScore.minScore,
+                                                     id)
+                batchScore.id = id
+                return ok(batchScore).build()
+            } else {
+                badRequest(String.format('Record not found! Invalid batchScore Id: %1$d', id))
+                .build()
+            }
+
+        } catch (Exception e) {
+            LOGGER.error("Exception while calling: putBatchScore", e)
+            return internalServerError(e.message).build()
+        }
+    }
+
     @DELETE
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteBatchScoreById(@Auth AuthenticatedUser authenticatedUser, @PathParam("id") Integer id) {
+    public Response deleteBatchScoreById(@Auth AuthenticatedUser authenticatedUser,
+                                         @PathParam("id") Integer id) {
         try {
             BATCH_SCORE_DAO.deleteBatchScoreById(id)
             return  ok().build()
